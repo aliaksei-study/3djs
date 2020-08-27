@@ -1,8 +1,9 @@
-import React, {Component, useMemo} from 'react';
+import React, {useMemo} from 'react';
 import * as THREE from "three";
-import {useSelector, useStore} from "react-redux";
-import {FormState, Portal, removePortal, Section} from "../formReducer";
 import {Scene} from "three";
+import {useSelector, useStore} from "react-redux";
+import {Portal, removePortal, Section} from "../reducer/tableReducer";
+import {RootState} from "../store/store";
 
 function drawPortals(portals: Array<Portal>, scene: Scene) {
     portals.forEach(portal => {
@@ -34,10 +35,10 @@ function drawSections(sections: Array<Section>, scene: Scene) {
 
 
 function GraphicsComponent() {
-    const store = useStore<FormState, any>();
-    const portals = useSelector<FormState, FormState["portals"]>((state) => state.portals);
-    const sections = useSelector<FormState, FormState["sections"]>((state => state.sections));
-    const removedLineId = useSelector<FormState, FormState["removedLineId"]>((state) => state.removedLineId);
+    const store = useStore<RootState, any>();
+    const removedLineId = useSelector((state:RootState) => state.table.removedLineId);
+    const portals = useSelector((state:RootState) => state.table.portals);
+    const sections = useSelector((state: RootState) => state.table.sections);
     let renderer = useMemo(() => {
         return new THREE.WebGLRenderer();
     }, []);

@@ -4,7 +4,7 @@ import {
     ACTION_CHANGE_LENGTH_OF_MODEL,
     ACTION_CHANGE_NUMBER_OF_LAYERS,
     ACTION_CHANGE_NUMBER_OF_PORTALS, ACTION_CHANGE_WIDTH_OF_MODEL
-} from "./formReducer";
+} from "./reducer/formReducer";
 
 export type ChangeNumberOfLayersType = {
     type: typeof ACTION_CHANGE_NUMBER_OF_LAYERS,
