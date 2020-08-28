@@ -1,11 +1,16 @@
 import React from 'react';
 import {useSelector, useStore} from "react-redux";
-import {FormState} from "../reducer/formReducer";
 import {generatePortal} from "../service/PortalService";
-import {addPortal, addSection, removeLine, TableState} from "../reducer/tableReducer";
-import {GenerateButtonState} from "../reducer/generateButtonReducer";
+import {addPortal, addSection, removeLine} from "../reducer/tableReducer";
 import {generateSection} from "../service/SectionService";
 import {RootState} from "../store/store";
+import EditPortalComponent from "./EditPortalComponent";
+import {setPortalId} from "../reducer/editPortalReducer";
+import {
+    changeAddLineModalShowedValue,
+    changeEditPortalModalShowedValue,
+} from "../reducer/modalReducer";
+import AddLineComponent from "./AddLineComponent";
 
 function TableComponent() {
     const store = useStore<RootState, any>();
@@ -18,7 +23,6 @@ function TableComponent() {
             <button type="button"
                     className="btn btn-outline-success"
                     onClick={(event) => {
-                        let state = store.getState();
                         let generatedPortal;
                         let stepLayer = (formState.heightOfModel === null ? 0 : formState.heightOfModel) /
                             (formState.numberOfLayers === null ? 0 : formState.numberOfLayers);
@@ -43,25 +47,9 @@ function TableComponent() {
             >Add
             </button>
             <button type="button" className=" ml-3 btn btn-outline-success" onClick={(event) => {
-                let x = document.getElementById("addLine");
-                if (x !== null) {
-                    x.hidden = !x.hidden;
-                }
+                store.dispatch(changeAddLineModalShowedValue(true));
             }}>Add Line
             </button>
-            <div id="addLine" hidden>
-                <select className="form-control">
-                    <option>Choose firstLine</option>
-                </select>
-                <select className="form-control">
-                    <option>Default select</option>
-                </select>
-            </div>
-            <div id="editModel" hidden>
-                <input type="number" className="form-control" id="newNumberOfSections"
-                       placeholder="new number of sections"/>
-                <input type="number" className="form-control" id="newWidthOfPortal" placeholder="new width of portal"/>
-            </div>
             <table className="table table-bordered">
                 <thead>
                 <tr>
@@ -83,33 +71,23 @@ function TableComponent() {
                         <td>{store.getState().form.numberOfLayers}</td>
                         <td>
                             <button onClick={(event) => {
-                                let x = document.getElementById("editModel");
-                                let numberOfLayers = document.getElementById("newNumberOfSections");
-                                let widthOfPortal = document.getElementById("newWidthOfPortal");
-                                if (x !== null) {
-                                    x.hidden = !x.hidden;
-                                }
-                                if (numberOfLayers !== null) {
-                                    numberOfLayers.addEventListener("change", (event: Event) => {
-                                    }, false)
-                                }
-                                if (widthOfPortal !== null) {
-                                    widthOfPortal.addEventListener("change", (event) => {
-                                    })
-                                }
+                                store.dispatch(setPortalId(portal.id));
+                                store.dispatch(changeEditPortalModalShowedValue(true));
                             }}>Edit
                             </button>
-                            <button
+                            {portalNumber !== 1 && <button
                                 onClick={(event) => {
                                     let removedLineId = portal.id;
                                     store.dispatch(removeLine(removedLineId));
                                 }}>Delete
-                            </button>
+                            </button>}
                         </td>
                     </tr>
                 ))}
                 </tbody>
             </table>
+            <EditPortalComponent/>
+            <AddLineComponent/>
         </div>
     )
 }

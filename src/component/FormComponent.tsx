@@ -16,7 +16,6 @@ import GraphicsComponent from "./GraphicsComponent";
 import TableComponent from "./TableComponent";
 import {RootState} from "../store/store";
 
-
 function FormComponent() {
     const store = useStore<RootState, any>();
     const generateButton = useSelector((state: RootState) => state.generateButton.isPressed);
