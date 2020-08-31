@@ -107,20 +107,20 @@ function FormComponent() {
                             let distFromStart = 0;
                             let step = formState.lengthOfModel == null ? 0 : formState.lengthOfModel /
                                 (formState.numberOfPortals == null ? 0 : formState.numberOfPortals - 1);
+                            // @ts-ignore
+                            let stepLayer = formState.heightOfModel / formState.numberOfLayers;
                             for (let j = 0; j < (formState.numberOfPortals === null ? 0 : formState.numberOfPortals); j++) {
                                 // @ts-ignore
-                                portals.push(generatePortal(step, distFromStart, formState.heightOfModel, formState.widthOfModel));
+                                portals.push(generatePortal(step, distFromStart, formState.heightOfModel, formState.widthOfModel, formState.numberOfLayers));
                                 distFromStart += step;
                             }
                             store.dispatch(generatePortals(portals));
                             let tableState = store.getState().table;
-                            // @ts-ignore
-                            let stepLayer = formState.heightOfModel / formState.numberOfLayers;
                             for (let j = 0; j < (formState.numberOfPortals === null ? 0 : formState.numberOfPortals - 1); j++) {
                                 for (let i = 0; i < (formState.numberOfLayers === null ? 0 : formState.numberOfLayers); i++) {
-                                    sections.push(generateSection(i, stepLayer, tableState.portals[j], tableState.portals[j + 1],
-                                        formState.lengthOfModel === null ? 0 : formState.lengthOfModel,
+                                    sections.push(generateSection(stepLayer, tableState.portals[j], tableState.portals[j + 1],
                                         formState.widthOfModel === null ? 0 : formState.widthOfModel));
+                                    stepLayer += stepLayer;
                                 }
                             }
                             store.dispatch(generateSections(sections));

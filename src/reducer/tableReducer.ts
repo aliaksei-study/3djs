@@ -18,7 +18,8 @@ export interface Portal {
     id: number,
     step: number
     distFromStart: number,
-    portalWidth: number,
+    heightOfPortal: number,
+    numberOfPortalLayers: number,
     portalLines: Array<Line>
 }
 

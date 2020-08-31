@@ -5,7 +5,7 @@ import {useSelector, useStore} from "react-redux";
 import {setPortalId} from "../reducer/editPortalReducer";
 import {changeEditPortalModalShowedValue} from "../reducer/modalReducer";
 
-function regeneratePortal() {
+function regeneratePortal(portalId: number, newDistFromStart: number, newHeightOfPortal: number, newNumberOfLayers: number) {
 
 }
 
@@ -32,13 +32,15 @@ function EditPortalComponent() {
                             <Form.Control type="number" placeholder="Enter distance from start"
                                           defaultValue={selectedPortal?.distFromStart}/>
                         </Form.Group>
-                        <Form.Group controlId="heightOfModelInput">
+                        <Form.Group controlId="heightOfPortalInput">
                             <Form.Label>Height of model</Form.Label>
-                            <Form.Control type="number" placeholder="Enter height of model"/>
+                            <Form.Control type="number" placeholder="Enter height of portal"
+                                          defaultValue={selectedPortal?.heightOfPortal}/>
                         </Form.Group>
                         <Form.Group controlId="numberOfLayersInput">
                             <Form.Label>Number of layers</Form.Label>
-                            <Form.Control type="number" placeholder="Enter number of layers" />
+                            <Form.Control type="number" placeholder="Enter number of layers"
+                                          defaultValue={selectedPortal?.numberOfPortalLayers}/>
                         </Form.Group>
                     </Form>
                 </div>
@@ -51,7 +53,10 @@ function EditPortalComponent() {
                     Close
                 </Button>
                 <Button variant="primary" onClick={() => {
-                    regeneratePortal();
+                    let newDistFromStart = +(document.getElementById("distFromStartInput") as HTMLInputElement).value;
+                    let newHeightOfPortal = +(document.getElementById("heightOfPortalInput") as HTMLInputElement).value;
+                    let newNumberOfLayers = +(document.getElementById("numberOfLayers") as HTMLInputElement).value;
+                    regeneratePortal(portalId === null ? 0: portalId, newDistFromStart, newHeightOfPortal, newNumberOfLayers);
                     store.dispatch(setPortalId(null));
                     store.dispatch(changeEditPortalModalShowedValue(false));
                 }}>

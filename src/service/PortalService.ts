@@ -1,41 +1,43 @@
 import * as THREE from "three";
 import {Line, Portal} from "../reducer/tableReducer";
 
-export function generatePortal(step: number, distFromStart: number, heightOfModel: number, portalWidth:number): Portal {
+export function generatePortal(step: number, distFromStart: number, heightOfPortal: number, portalWidth:number, numberOfPortalLayers: number): Portal {
     let id;
-    let numberOfPortalLines = 3;
+    let stepLayer = heightOfPortal / numberOfPortalLayers;
     let portalLines: Line[] = [];
-    for (let i = 0; i < numberOfPortalLines; i++) {
+    let layerHeight = 0;
+    for(let i = 0; i < numberOfPortalLayers; i++) {
+        let points: THREE.Vector3[] = [];
+        layerHeight += stepLayer;
+        points.push(getLinePoints(distFromStart, layerHeight, 0));
+        points.push(getLinePoints(distFromStart, layerHeight, -portalWidth));
         id = Math.random();
-        let points = generatePortalLine(i, distFromStart, heightOfModel, portalWidth);
+        portalLines.push({id, points})
+    }
+    layerHeight = 0;
+    for(let i = 0; i < numberOfPortalLayers; i++) {
+        let points: THREE.Vector3[] = [];
+        points.push(getLinePoints(distFromStart, layerHeight, 0));
+        layerHeight += stepLayer;
+        points.push(getLinePoints(distFromStart, layerHeight, 0));
+        id = Math.random();
+        portalLines.push({id, points});
+    }
+    layerHeight = 0;
+    for(let i = 0; i < numberOfPortalLayers; i++) {
+        let points: THREE.Vector3[] = [];
+        points.push(getLinePoints(distFromStart, layerHeight, -portalWidth));
+        layerHeight += stepLayer;
+        points.push(getLinePoints(distFromStart, layerHeight, -portalWidth));
+        id = Math.random();
         portalLines.push({id, points});
     }
     id = Math.random();
-    return {id, step, distFromStart, portalWidth, portalLines}
+    return {id, step, distFromStart, heightOfPortal, numberOfPortalLayers, portalLines}
 }
 
-export function generatePortalLine(numberOfLine: number, distFromStart:number, heightOfModel: number, widthOfModel: number) : THREE.Vector3[] {
-    let points: THREE.Vector3[] = [];
-    switch(numberOfLine) {
-        case 0: {
-            points.push(getFirstPortalPoint(distFromStart));
-            points.push(getSecondPortalPoint(distFromStart, heightOfModel));
-            return points;
-        }
-        case 1: {
-            points.push(getSecondPortalPoint(distFromStart, heightOfModel));
-            points.push(getThirdPortalPoint(distFromStart, heightOfModel, widthOfModel));
-            return points;
-        }
-        case 2: {
-            points.push(getThirdPortalPoint(distFromStart, heightOfModel, widthOfModel));
-            points.push(getFourthPortalPoint(distFromStart, widthOfModel));
-            return points;
-        }
-        default: {
-            return points;
-        }
-    }
+export function getLinePoints(distFromStart: number, layerHeight: number, z: number): THREE.Vector3 {
+    return new THREE.Vector3(distFromStart, layerHeight, z);
 }
 
 export function getFirstPortalPoint(distFromStart: number) : THREE.Vector3 {

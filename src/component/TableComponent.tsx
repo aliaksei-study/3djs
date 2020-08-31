@@ -27,19 +27,21 @@ function TableComponent() {
                         let stepLayer = (formState.heightOfModel === null ? 0 : formState.heightOfModel) /
                             (formState.numberOfLayers === null ? 0 : formState.numberOfLayers);
                         let portal = Array.from(tableState.portals).pop();
-                        if (portal !== undefined && formState.heightOfModel !== null) {
-                            generatedPortal = generatePortal(portal.step, portal.distFromStart + portal.step, formState.heightOfModel, portal.portalWidth);
+                        if (portal !== undefined && formState.heightOfModel !== null && formState.widthOfModel !== null
+                            && formState.numberOfPortals !== null) {
+                            generatedPortal = generatePortal(portal.step, portal.distFromStart + portal.step,
+                                formState.heightOfModel, formState.widthOfModel, formState.numberOfPortals);
                             store.dispatch(addPortal(generatedPortal));
                         }
                         for (let numberOfSection = 0; numberOfSection < (formState.numberOfLayers === null ? 0 : formState.numberOfLayers);
                              numberOfSection++) {
                             let generatedSection;
                             if (generatedPortal !== undefined && portal !== undefined) {
-                                generatedSection = generateSection(numberOfSection, stepLayer, generatedPortal, portal,
-                                    formState.heightOfModel === null ? 0 : formState.heightOfModel,
+                                generatedSection = generateSection(stepLayer, generatedPortal, portal,
                                     formState.widthOfModel === null ? 0 : formState.widthOfModel);
                             }
-                            if(generatedSection !== undefined) {
+                            if (generatedSection !== undefined) {
+                                stepLayer += stepLayer;
                                 store.dispatch(addSection(generatedSection));
                             }
                         }
@@ -66,9 +68,9 @@ function TableComponent() {
                     <tr>
                         <td>{portalNumber++}</td>
                         <td>{portal.distFromStart}</td>
-                        <td>{portal.portalWidth}</td>
-                        <td>{store.getState().form.heightOfModel}</td>
-                        <td>{store.getState().form.numberOfLayers}</td>
+                        <td>{store.getState().form.widthOfModel}</td>
+                        <td>{portal.heightOfPortal}</td>
+                        <td>{portal.numberOfPortalLayers}</td>
                         <td>
                             <button onClick={(event) => {
                                 store.dispatch(setPortalId(portal.id));
