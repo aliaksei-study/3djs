@@ -17,7 +17,7 @@ function TableComponent() {
     let formState = store.getState().form;
     let tableState = store.getState().table;
     const portals = useSelector((state: RootState) => state.table.portals);
-    let portalNumber = 1;
+    let portalNumber = 0;
     return (
         <div className="container">
             <button type="button"
@@ -65,8 +65,8 @@ function TableComponent() {
                 </thead>
                 <tbody>
                 {portals.map(portal => (
-                    <tr>
-                        <td>{portalNumber++}</td>
+                    <tr key={portalNumber}>
+                        <td>{++portalNumber}</td>
                         <td>{portal.distFromStart}</td>
                         <td>{store.getState().form.widthOfModel}</td>
                         <td>{portal.heightOfPortal}</td>
@@ -77,12 +77,12 @@ function TableComponent() {
                                 store.dispatch(changeEditPortalModalShowedValue(true));
                             }}>Edit
                             </button>
-                            {portalNumber !== 1 && <button
+                            <button
                                 onClick={(event) => {
                                     let removedLineId = portal.id;
                                     store.dispatch(removeLine(removedLineId));
                                 }}>Delete
-                            </button>}
+                            </button>
                         </td>
                     </tr>
                 ))}
