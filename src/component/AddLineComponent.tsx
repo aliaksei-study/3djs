@@ -1,18 +1,38 @@
-import React, {useState} from 'react';
-import {Modal, Button, Row, Col, Form} from 'react-bootstrap'
+import React, {ChangeEvent} from 'react';
+import {Button, Form, Modal} from 'react-bootstrap'
 import {useSelector, useStore} from "react-redux";
 import {RootState} from "../store/store";
 import {setPortalId} from "../reducer/editPortalReducer";
 import {changeAddLineModalShowedValue} from "../reducer/modalReducer";
+import {setDistFromStart, setFirstLineId, setSecondLineId} from "../reducer/addLineReducer";
+import {generateLine} from "../service/LineService";
+import {Line, Portal, Section} from "../reducer/tableReducer";
+
+export interface IdArr {
+    key: string,
+    value: number
+}
+
+function saveIDsToMap(portalsId: Array<number>, sectionsId: Array<number>, map: Array<IdArr>) {
+    for (let i = 0; i < portalsId.length; i++) {
+        map.push({key: "B - " + i, value: portalsId[i]})
+    }
+    for (let i = 0; i < sectionsId.length; i++) {
+        map.push({key: "C - " + i, value: sectionsId[i]})
+    }
+}
 
 function AddLineComponent() {
     const store = useStore<RootState, any>();
+    let map = new Array<IdArr>();
+    const portals: Array<Portal> = store.getState().table.portals;
+    const sections: Array<Section> = store.getState().table.sections;
     const isShowed = useSelector((state: RootState) => state.modal.isAddLineModalShowed);
-    const portalsId = useSelector((state: RootState) => state.table.portals.map(portal => portal.id));
+    const portalsId = useSelector((state: RootState) => state.table.portals.flatMap(portal =>
+        portal.portalLines.map(portalLine => portalLine.id)));
     const sectionsId = useSelector((state: RootState) => state.table.sections.flatMap(section =>
         section.sectionLines.map(sectionLine => sectionLine.id)));
-    let elementsId = portalsId.concat(sectionsId);
-    let firstSelectId =1, secondSelectId = 1;
+    saveIDsToMap(portalsId, sectionsId, map);
     return (
         <Modal show={isShowed} onHide={(event: Event) => {
             store.dispatch(setPortalId(null));
@@ -27,20 +47,45 @@ function AddLineComponent() {
                     <Form>
                         <Form.Group controlId="firstLineSelect">
                             <Form.Label>Select the id of first Line</Form.Label>
-                            <Form.Control as="select">
+                            <Form.Control as="select" onChange={(event) => {
+                                let selectedObject = map.find((value: IdArr, index: number) => {
+                                    return value.key === event.target.value;
+                                });
+                                if (selectedObject !== undefined) {
+                                    store.dispatch(setFirstLineId(selectedObject.value));
+                                }
+                            }}>
+                                <option>Choose first line id</option>
                                 {
-                                    elementsId.map(elementId => (
-                                    <option key={elementId}>{firstSelectId++}</option>
-                                ))}
+                                    map.map((item: IdArr, i: number) => (
+                                        <option key={i}>{item.key}</option>
+                                    ))
+                                }
                             </Form.Control>
                         </Form.Group>
                         <Form.Group controlId="secondLineSelect">
                             <Form.Label>Select the id of second line</Form.Label>
-                            <Form.Control as="select">
-                                {elementsId.map(elementId => (
-                                    <option key={elementId}>{secondSelectId++}</option>
-                                ))}
+                            <Form.Control as="select" onChange={(event) => {
+                                let selectedObject = map.find((value: IdArr, index: number) => {
+                                    return value.key === event.target.value;
+                                });
+                                if (selectedObject !== undefined) {
+                                    store.dispatch(setSecondLineId(selectedObject.value));
+                                }
+                            }}>
+                                <option>Choose second line id</option>
+                                {
+                                    map.map((item: IdArr, i: number) => (
+                                        <option key={i}>{item.key}</option>
+                                    ))
+                                }
                             </Form.Control>
+                        </Form.Group>
+                        <Form.Group controlId="distFromStartInput" onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                            store.dispatch(setDistFromStart(+event.target.value));
+                        }}>
+                            <Form.Label>Distance from start</Form.Label>
+                            <Form.Control type="number" placeholder="Enter distance from start"/>
                         </Form.Group>
                     </Form>
                 </div>
@@ -53,6 +98,23 @@ function AddLineComponent() {
                     Close
                 </Button>
                 <Button variant="primary" onClick={() => {
+                    let firstLineId = store.getState().addLine.firstLineId;
+                    let secondLineId = store.getState().addLine.secondLineId;
+                    let distFromStart = store.getState().addLine.distFromStart;
+                    if(firstLineId !== null && secondLineId !== null && distFromStart !== null) {
+                        let lines: Array<Line> = new Array<Line>();
+                        portals.forEach(portal => portal.portalLines.forEach(line => {
+                            if(line.id === store.getState().addLine.firstLineId || line.id === store.getState().addLine.secondLineId) {
+                                lines.push(line);
+                            }
+                        }));
+                        sections.forEach(section => section.sectionLines.forEach(line => {
+                            if(line.id === store.getState().addLine.firstLineId || line.id === store.getState().addLine.secondLineId) {
+                                lines.push(line);
+                            }
+                        }));
+                        generateLine(lines, distFromStart);
+                    }
                     store.dispatch(setPortalId(null));
                     store.dispatch(changeAddLineModalShowedValue(false));
                 }}>

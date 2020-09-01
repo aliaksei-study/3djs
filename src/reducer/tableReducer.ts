@@ -4,7 +4,8 @@ import {ACTION_GENERATE_PORTALS, ACTION_GENERATE_SECTIONS} from "./formReducer";
 export interface TableState {
     sections: Array<Section>,
     portals: Array<Portal>,
-    removedLineId: number | null
+    removedLineId: number | null,
+    lines: Array<Line>
 }
 
 export interface Section {
@@ -31,13 +32,15 @@ export interface Line {
 const initialState = {
     sections: [],
     portals: [],
-    removedLineId: null
+    removedLineId: null,
+    lines: []
 };
 
 export const ACTION_ADD_PORTAL = 'ACTION_ADD_PORTAL';
 export const ACTION_ADD_SECTION = 'ACTION_ADD_SECTION';
 export const ACTION_REMOVE_LINE = 'ACTION_REMOVE_LINE';
 export const ACTION_REMOVE_PORTALS = 'ACTION_REMOVE_PORTALS';
+export const ACTION_ADD_LINE = 'ACTION_ADD_LINE';
 
 export const addPortal = (newPortal: Portal) => {
     return {
@@ -81,6 +84,13 @@ export const generateSections = (newSectionLines: Array<Section>) => {
     }
 };
 
+export const addLine = (newLine: Line) => {
+    return {
+        type: ACTION_ADD_LINE,
+        payload: newLine
+    }
+};
+
 export const tableReducer = (state: TableState = initialState, action: any): TableState => {
     switch (action.type) {
         case ACTION_ADD_PORTAL: {
@@ -104,6 +114,9 @@ export const tableReducer = (state: TableState = initialState, action: any): Tab
         }
         case ACTION_GENERATE_SECTIONS: {
             return {...state, sections: action.payload}
+        }
+        case ACTION_ADD_LINE: {
+            return {...state, lines: [...state.lines, action.payload]}
         }
         default:
             return state;

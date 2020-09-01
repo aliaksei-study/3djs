@@ -12,7 +12,7 @@ export function generateSection(stepLayer: number, curPortal: Portal, nextPortal
         let points: THREE.Vector3[] = [];
         points.push(getLinePoints(curPortal.distFromStart, layerHeight + stepLayer, i === 0 ? i : -widthOfModel));
         points.push(getLinePoints(nextPortal.distFromStart, layerHeight + stepLayer, i === 0 ? i : -widthOfModel));
-        id = i;
+        id = Math.random();
         sectionLines.push({id, points});
     }
     id = Math.random();
