@@ -1,7 +1,6 @@
 import React from 'react';
 import {useSelector, useStore} from 'react-redux';
 import {
-    changeDirection,
     changeHeightOfModel,
     changeLengthOfModel,
     changeNumberOfLayers,
@@ -82,21 +81,6 @@ function FormComponent() {
                             }}
                         />
                     </div>
-                    <div className="col">
-                        <select
-                            id="inputDirection"
-                            defaultValue={"+X"}
-                            className="form-control"
-                            onChange={(event) => {
-                                store.dispatch(changeDirection(event.target.value));
-                            }}
-                        >
-                            <option>+X</option>
-                            <option>-X</option>
-                            <option>+Z</option>
-                            <option>-Z</option>
-                        </select>
-                    </div>
                 </div>
                 <button type="button"
                         className="btn btn-outline-success mt-3 mx-auto d-block"
@@ -136,3 +120,21 @@ function FormComponent() {
 }
 
 export default FormComponent;
+
+/*
+<div className="col">
+                        <select
+                            id="inputDirection"
+                            defaultValue={"+X"}
+                            className="form-control"
+                            onChange={(event) => {
+                                store.dispatch(changeDirection(event.target.value));
+                            }}
+                        >
+                            <option>+X</option>
+                            <option>-X</option>
+                            <option>+Z</option>
+                            <option>-Z</option>
+                        </select>
+                    </div>
+ */

@@ -39,19 +39,3 @@ export function generatePortal(step: number, distFromStart: number, heightOfPort
 export function getLinePoints(distFromStart: number, layerHeight: number, z: number): THREE.Vector3 {
     return new THREE.Vector3(distFromStart, layerHeight, z);
 }
-
-export function getFirstPortalPoint(distFromStart: number) : THREE.Vector3 {
-    return new THREE.Vector3(distFromStart, 0, 0);
-}
-
-export function getSecondPortalPoint(distFromStart: number, heightOfModel: number): THREE.Vector3 {
-    return new THREE.Vector3(distFromStart, heightOfModel, 0);
-}
-
-export function getThirdPortalPoint(distFromStart: number, heightOfModel: number, widthOfModel: number): THREE.Vector3 {
-    return new THREE.Vector3(distFromStart, heightOfModel, -widthOfModel)
-}
-
-export function getFourthPortalPoint(distFromStart: number, widthOfModel: number) {
-    return new THREE.Vector3(distFromStart, 0, -widthOfModel);
-}
