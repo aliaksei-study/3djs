@@ -1,7 +1,7 @@
-import {Line} from "../reducer/tableReducer";
+import {Line, RandomLine} from "../reducer/tableReducer";
 import * as THREE from "three";
 
-export function generateLine(lines: Array<Line>, distFromStart: number) : Line {
+export function generateLine(lines: Array<Line>, distFromStart: number, firstLineId: number, secondLineId: number) : RandomLine {
     let id;
     let points: THREE.Vector3[] = [];
     for(let i = 0; i < lines.length; i++) {
@@ -16,26 +16,30 @@ export function generateLine(lines: Array<Line>, distFromStart: number) : Line {
         }
     }
     id = Math.random();
-    return {id, points};
+    return {id, points, firstLineId, secondLineId};
 }
 
-export function splitLine(line: Line, generatedLine: Line) : Array<Line> {
+export function splitLine(line: Line, generatedLinePoints: Array<THREE.Vector3>) : Array<Line> {
+    let numberOfLines = 2;
     let id;
     let splitedLine: Array<Line> = new Array<Line>();
-    if((line.points[0].x === generatedLine.points[0].x && line.points[0].y === generatedLine.points[0].y) ||
-        (line.points[0].x === generatedLine.points[0].x && line.points[0].z === generatedLine.points[0].z) ||
-        (line.points[0].y === generatedLine.points[0].y && line.points[0].z === generatedLine.points[0].z)) {
-        let points;
-        id = Math.random();
-        points = generatePointsOfFirstDividedLine(line, generatedLine.points[0]);
-        splitedLine.push({id, points});
+    if((line.points[0].x === generatedLinePoints[0].x && line.points[0].y === generatedLinePoints[0].y) ||
+        (line.points[0].x === generatedLinePoints[0].x && line.points[0].z === generatedLinePoints[0].z) ||
+        (line.points[0].y === generatedLinePoints[0].y && line.points[0].z === generatedLinePoints[0].z)) {
+        for(let i = 0; i < numberOfLines; i++) {
+            let points;
+            id = Math.random();
+            points = i === 0? generatePointsOfFirstDividedLine(line, generatedLinePoints[0]) : generatePointsOfSecondDividedLine(line, generatedLinePoints[0]);
+            splitedLine.push({id, points});
+        }
     } else {
-        let points;
-        id = Math.random();
-        points = generatePointsOfSecondDividedLine(line, generatedLine.points[1]);
-        splitedLine.push({id, points});
+        for(let i = 0; i < numberOfLines; i++) {
+            let points;
+            id = Math.random();
+            points = i === 0? generatePointsOfFirstDividedLine(line, generatedLinePoints[1]) : generatePointsOfSecondDividedLine(line, generatedLinePoints[1]);
+            splitedLine.push({id, points});
+        }
     }
-    console.log(splitedLine);
     return splitedLine;
 }
 
@@ -45,7 +49,7 @@ export function generatePointsOfFirstDividedLine(line: Line, generatedLinePoints
     points.push(new THREE.Vector3(line.points[0].x === generatedLinePoints.x ? line.points[0].x :
         line.points[0].z === generatedLinePoints.z ? line.points[0].x + generatedLinePoints.x : line.points[0].x,
         line.points[0].x === generatedLinePoints.x ? line.points[0].z === generatedLinePoints.z ? line.points[0].y + generatedLinePoints.y : line.points[0].y : line.points[0].y,
-        (line.points[0].x === generatedLinePoints.x && line.points[0].y === generatedLinePoints.y) ? line.points[0].z - generatedLinePoints.z : line.points[0].z));
+        (line.points[0].x === generatedLinePoints.x && line.points[0].y === generatedLinePoints.y) ? line.points[0].z + generatedLinePoints.z : line.points[0].z));
     return points;
 }
 
@@ -54,7 +58,7 @@ export function generatePointsOfSecondDividedLine(line: Line, generatedLinePoint
     points.push(new THREE.Vector3(line.points[0].x === generatedLinePoints.x ? line.points[0].x :
         line.points[0].z === generatedLinePoints.z ? line.points[0].x + generatedLinePoints.x : line.points[0].x,
         line.points[0].x === generatedLinePoints.x ? line.points[0].z === generatedLinePoints.z ? line.points[0].y + generatedLinePoints.y : line.points[0].y : line.points[0].y,
-        (line.points[0].x === generatedLinePoints.x && line.points[0].y === generatedLinePoints.y) ? line.points[0].z - generatedLinePoints.z : line.points[0].z));
+        (line.points[0].x === generatedLinePoints.x && line.points[0].y === generatedLinePoints.y) ? line.points[0].z + generatedLinePoints.z : line.points[0].z));
     points.push(new THREE.Vector3(line.points[1].x, line.points[1].y, line.points[1].z));
     return points;
 }

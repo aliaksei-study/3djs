@@ -45,12 +45,6 @@ function drawLines(lines: Array<Line>, scene: Scene) {
         })
 }
 
-function printPortalsAndSections(portals: Array<Portal>, sections: Array<Section>) {
-    console.log(Array.from(portals.map(portal => portal.portalLines)
-        .concat(Array.from(sections.map(section => section.sectionLines)))));
-}
-
-
 function GraphicsComponent() {
     const store = useStore<RootState, any>();
     const removedLineId = useSelector((state:RootState) => state.table.removedLineId);
@@ -77,7 +71,6 @@ function GraphicsComponent() {
     drawPortals(portals, scene);
     drawSections(sections, scene);
     drawLines(lines, scene);
-    printPortalsAndSections(portals, sections);
     let animate = function () {
         renderer.render(scene, camera);
     };

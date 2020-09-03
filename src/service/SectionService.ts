@@ -1,7 +1,8 @@
-import {Portal} from "../reducer/tableReducer";
+import {Portal, RandomLine} from "../reducer/tableReducer";
 import * as THREE from "three";
 import {Line, Section} from "../reducer/tableReducer";
 import {getLinePoints} from "./PortalService";
+import {splitLine} from "./LineService";
 
 export function generateSection(stepLayer: number, curPortal: Portal, nextPortal: Portal, widthOfModel:number): Section {
     let numberOfLines = 2;
@@ -19,4 +20,16 @@ export function generateSection(stepLayer: number, curPortal: Portal, nextPortal
     let firstPortalId = curPortal.id;
     let secondPortalId = nextPortal.id;
     return {id, firstPortalId, secondPortalId, sectionLines};
+}
+
+export function splitSections(sections: Array<Section>, randomLines: Array<RandomLine>) {
+    let splitedSectionLines = Array<Line>();
+    for(let i = 0; i < sections.length; i++) {
+        sections[i].sectionLines.forEach(line => randomLines.forEach(randomLine => {
+            if(line.id === randomLine.firstLineId || line.id === randomLine.secondLineId) {
+                splitLine(line, randomLine.points).forEach(sectionLine => splitedSectionLines.push(sectionLine));
+            }
+        }))
+    }
+    console.log(splitedSectionLines);
 }

@@ -1,5 +1,6 @@
 import * as THREE from "three";
-import {Line, Portal} from "../reducer/tableReducer";
+import {Line, Portal, RandomLine} from "../reducer/tableReducer";
+import {splitLine} from "./LineService";
 
 export function generatePortal(step: number, distFromStart: number, heightOfPortal: number, portalWidth:number, numberOfPortalLayers: number): Portal {
     let id;
@@ -38,4 +39,17 @@ export function generatePortal(step: number, distFromStart: number, heightOfPort
 
 export function getLinePoints(distFromStart: number, layerHeight: number, z: number): THREE.Vector3 {
     return new THREE.Vector3(distFromStart, layerHeight, z);
+}
+
+export function splitPortals(portals: Array<Portal>, randomLines: Array<RandomLine>, heightOfModel: number,
+                             numberOfLayers: number) {
+    let splitedPortalLines = Array<Line>();
+    for(let i = 0; i < portals.length; i++) {
+        portals[i].portalLines.forEach(line => randomLines.forEach(randomLine => {
+            if(line.id === randomLine.firstLineId || line.id === randomLine.secondLineId) {
+                splitLine(line, randomLine.points).forEach(portalLine => splitedPortalLines.push(portalLine));
+            }
+        }))
+    }
+    console.log(splitedPortalLines);
 }

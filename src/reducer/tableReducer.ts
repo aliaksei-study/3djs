@@ -5,7 +5,7 @@ export interface TableState {
     sections: Array<Section>,
     portals: Array<Portal>,
     removedLineId: number | null,
-    lines: Array<Line>
+    lines: Array<RandomLine>
 }
 
 export interface Section {
@@ -22,6 +22,11 @@ export interface Portal {
     heightOfPortal: number,
     numberOfPortalLayers: number,
     portalLines: Array<Line>
+}
+
+export interface RandomLine extends Line {
+    firstLineId: number,
+    secondLineId: number
 }
 
 export interface Line {
@@ -41,6 +46,8 @@ export const ACTION_ADD_SECTION = 'ACTION_ADD_SECTION';
 export const ACTION_REMOVE_LINE = 'ACTION_REMOVE_LINE';
 export const ACTION_REMOVE_PORTALS = 'ACTION_REMOVE_PORTALS';
 export const ACTION_ADD_LINE = 'ACTION_ADD_LINE';
+export const ACTION_REMOVE_MODEL = 'ACTION_REMOVE_MODEL';
+export const ACTION_REMOVE_RANDOM_LINE = 'ACTION_REMOVE_RANDOM_LINE';
 
 export const addPortal = (newPortal: Portal) => {
     return {
@@ -91,6 +98,20 @@ export const addLine = (newLine: Line) => {
     }
 };
 
+export const removeModel = () => {
+    return {
+        type: ACTION_REMOVE_MODEL,
+        payload: initialState
+    }
+};
+
+export const removeRandomLine = (removedLineId: number) => {
+    return {
+        type: ACTION_REMOVE_RANDOM_LINE,
+        payload: removedLineId
+    }
+};
+
 export const tableReducer = (state: TableState = initialState, action: any): TableState => {
     switch (action.type) {
         case ACTION_ADD_PORTAL: {
@@ -117,6 +138,12 @@ export const tableReducer = (state: TableState = initialState, action: any): Tab
         }
         case ACTION_ADD_LINE: {
             return {...state, lines: [...state.lines, action.payload]}
+        }
+        case ACTION_REMOVE_MODEL: {
+            return action.payload;
+        }
+        case ACTION_REMOVE_RANDOM_LINE: {
+            return {...state, lines: [...state.lines.filter(line => line.firstLineId !== action.payload && line.secondLineId !== action.payload)]}
         }
         default:
             return state;

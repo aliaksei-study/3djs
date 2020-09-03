@@ -5,37 +5,12 @@ import {RootState} from "../store/store";
 import {setPortalId} from "../reducer/editPortalReducer";
 import {changeAddLineModalShowedValue} from "../reducer/modalReducer";
 import {setDistFromStart, setFirstLineId, setSecondLineId} from "../reducer/addLineReducer";
-import {generateLine, splitLine} from "../service/LineService";
+import {generateLine} from "../service/LineService";
 import {addLine, Line, Portal, Section} from "../reducer/tableReducer";
 
 export interface IdArr {
     key: string,
     value: number
-}
-
-function splitObject(generatedLine: Line, portals: Array<Portal>, sections: Array<Section>, lines: Array<Line>) {
-    let portalLinesWithSelectedLine: Array<Line> = new Array<Line>();
-    let sectionLinesWithSelectedLine: Array<Line> = new Array<Line>();
-    let dividedPortal: Array<Array<Line>> = new Array<Array<Line>>();
-    let dividedSection: Array<Array<Line>> = new Array<Array<Line>>();
-    for (let i = 0; i < lines.length; i++) {
-        portals.forEach(portal => {
-            if (portal.portalLines.includes(lines[i])) {
-                portalLinesWithSelectedLine.push(lines[i]);
-            }
-        });
-        sections.forEach(section => {
-            if(section.sectionLines.includes(lines[i])) {
-                sectionLinesWithSelectedLine.push(lines[i]);
-            }
-        })
-    }
-    for(let i = 0; i < portalLinesWithSelectedLine.length; i++) {
-        dividedPortal.push(splitLine(portalLinesWithSelectedLine[i], generatedLine));
-    }
-    for(let i = 0; i < sectionLinesWithSelectedLine.length; i++) {
-        dividedSection.push(splitLine(sectionLinesWithSelectedLine[i], generatedLine));
-    }
 }
 
 function saveIDsToMap(portalsId: Array<number>, sectionsId: Array<number>, map: Array<IdArr>) {
@@ -138,9 +113,8 @@ function AddLineComponent() {
                                 lines.push(line);
                             }
                         }));
-                        let generatedLine = generateLine(lines, distFromStart);
+                        let generatedLine = generateLine(lines, distFromStart, firstLineId, secondLineId);
                         store.dispatch(addLine(generatedLine));
-                        splitObject(generatedLine, portals, sections, lines);
                     }
                     store.dispatch(setPortalId(null));
                     store.dispatch(changeAddLineModalShowedValue(false));

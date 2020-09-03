@@ -1,7 +1,7 @@
 import React from 'react';
 import {useSelector, useStore} from "react-redux";
 import {generatePortal} from "../service/PortalService";
-import {addPortal, addSection, removeLine} from "../reducer/tableReducer";
+import {addPortal, addSection, removeLine, removeModel, removeRandomLine} from "../reducer/tableReducer";
 import {generateSection} from "../service/SectionService";
 import {RootState} from "../store/store";
 import EditPortalComponent from "./EditPortalComponent";
@@ -11,12 +11,14 @@ import {
     changeEditPortalModalShowedValue,
 } from "../reducer/modalReducer";
 import AddLineComponent from "./AddLineComponent";
+import SplitModelComponent from "./SplitModelComponent";
 
 function TableComponent() {
     const store = useStore<RootState, any>();
     let formState = store.getState().form;
     let tableState = store.getState().table;
     const portals = useSelector((state: RootState) => state.table.portals);
+    const randomLines = useSelector((state: RootState) => state.table.lines);
     let portalNumber = 0;
     return (
         <div className="container">
@@ -52,6 +54,7 @@ function TableComponent() {
                 store.dispatch(changeAddLineModalShowedValue(true));
             }}>Add Line
             </button>
+            <SplitModelComponent/>
             <table className="table table-bordered">
                 <thead>
                 <tr>
@@ -80,18 +83,31 @@ function TableComponent() {
                             <button
                                 onClick={(event) => {
                                     let removedLineId = portal.id;
+                                    if (removedLineId === portals[0].id) {
+                                        store.dispatch(removeModel());
+                                    } else {
+                                        portal.portalLines.forEach(line => randomLines.forEach(randomLine => {
+                                            if (randomLine.firstLineId === line.id) {
+                                                store.dispatch(removeRandomLine(randomLine.firstLineId));
+                                            } else if (randomLine.secondLineId === line.id) {
+                                                store.dispatch(removeRandomLine(randomLine.secondLineId));
+                                            }
+                                        }));
+                                    }
                                     store.dispatch(removeLine(removedLineId));
-                                }}>Delete
+                                }
+                                }
+                            >Delete
                             </button>
                         </td>
                     </tr>
                 ))}
                 </tbody>
             </table>
-            <EditPortalComponent/>
-            <AddLineComponent/>
-        </div>
-    )
-}
+                    <EditPortalComponent/>
+                    <AddLineComponent/>
+                    </div>
+                )
+                }
 
-export default TableComponent;
+                export default TableComponent;
