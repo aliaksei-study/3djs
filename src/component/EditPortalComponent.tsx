@@ -24,7 +24,6 @@ function regenerateSections(sections: Array<Section>, portalId: number, portals:
     let editableSections = Array.from(sections);
     let changedSections: Array<Section> = Array.from(sections).filter(section => section.firstPortalId === portalId ||
         section.secondPortalId === portalId);
-    console.log(changedSections);
     let sectionId;
     for (let i = 0, key = 0; i < changedSections.length; i++, key++) {
         let newSection;

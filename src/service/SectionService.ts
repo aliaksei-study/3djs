@@ -22,7 +22,7 @@ export function generateSection(stepLayer: number, curPortal: Portal, nextPortal
     return {id, firstPortalId, secondPortalId, sectionLines};
 }
 
-export function splitSections(sections: Array<Section>, randomLines: Array<RandomLine>) {
+export function splitSections(sections: Array<Section>, randomLines: Array<RandomLine>): Array<Line> {
     let splitedSectionLines = Array<Line>();
     for(let i = 0; i < sections.length; i++) {
         sections[i].sectionLines.forEach(line => randomLines.forEach(randomLine => {
@@ -31,5 +31,5 @@ export function splitSections(sections: Array<Section>, randomLines: Array<Rando
             }
         }))
     }
-    console.log(splitedSectionLines);
+    return splitedSectionLines;
 }
