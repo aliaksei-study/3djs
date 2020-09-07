@@ -13,12 +13,15 @@ export interface IdArr {
     value: number
 }
 
-function saveIDsToMap(portalsId: Array<number>, sectionsId: Array<number>, map: Array<IdArr>) {
+function saveIDsToMap(portalsId: Array<number>, sectionsId: Array<number>, randomLinesIds: Array<number>, map: Array<IdArr>) {
     for (let i = 0; i < portalsId.length; i++) {
         map.push({key: "B - " + i, value: portalsId[i]})
     }
     for (let i = 0; i < sectionsId.length; i++) {
         map.push({key: "C - " + i, value: sectionsId[i]})
+    }
+    for(let i = 0; i < randomLinesIds.length; i++) {
+        map.push({key: "R - " + i, value: randomLinesIds[i]})
     }
 }
 
@@ -27,12 +30,14 @@ function AddLineComponent() {
     let map = new Array<IdArr>();
     const portals: Array<Portal> = store.getState().table.portals;
     const sections: Array<Section> = store.getState().table.sections;
+    const randomLines: Array<Line> = store.getState().table.lines;
     const isShowed = useSelector((state: RootState) => state.modal.isAddLineModalShowed);
     const portalsId = useSelector((state: RootState) => state.table.portals.flatMap(portal =>
         portal.portalLines.map(portalLine => portalLine.id)));
     const sectionsId = useSelector((state: RootState) => state.table.sections.flatMap(section =>
         section.sectionLines.map(sectionLine => sectionLine.id)));
-    saveIDsToMap(portalsId, sectionsId, map);
+    const randomLinesIds = useSelector((state: RootState) => state.table.lines.map(line => line.id));
+    saveIDsToMap(portalsId, sectionsId, randomLinesIds, map);
     return (
         <Modal show={isShowed} onHide={(event: Event) => {
             store.dispatch(setPortalId(null));
@@ -113,6 +118,11 @@ function AddLineComponent() {
                                 lines.push(line);
                             }
                         }));
+                        randomLines.forEach(randomLine =>{
+                            if (randomLine.id === store.getState().addLine.firstLineId || randomLine.id === store.getState().addLine.secondLineId) {
+                                lines.push(randomLine);
+                            }
+                        });
                         let generatedLine = generateLine(lines, distFromStart, firstLineId, secondLineId);
                         store.dispatch(addLine(generatedLine));
                     }

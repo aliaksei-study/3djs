@@ -1,11 +1,11 @@
 import React from 'react';
 import {useSelector, useStore} from "react-redux";
 import {generatePortal} from "../service/PortalService";
-import {addPortal, addSection, removeLine, removeModel, removeRandomLine} from "../reducer/tableReducer";
+import {addPortal, addSection, removeLine, removeModel, removeRandomLine, removeSection} from "../reducer/tableReducer";
 import {generateSection} from "../service/SectionService";
 import {RootState} from "../store/store";
 import EditPortalComponent from "./EditPortalComponent";
-import {setPortalId} from "../reducer/editPortalReducer";
+import {changeClickedValue, setPortalId} from "../reducer/editPortalReducer";
 import {
     changeAddLineModalShowedValue,
     changeEditPortalModalShowedValue,
@@ -13,11 +13,20 @@ import {
 import AddLineComponent from "./AddLineComponent";
 import SplitModelComponent from "./SplitModelComponent";
 
+/*
+* InputCell = () => {
+*
+* return <td>...</td>
+* }
+* */
+
 function TableComponent() {
     const store = useStore<RootState, any>();
     let formState = store.getState().form;
     let tableState = store.getState().table;
     const portals = useSelector((state: RootState) => state.table.portals);
+    const sections = useSelector((state: RootState) => state.table.sections);
+    const isClicked = useSelector((state: RootState) => state.editPortal.isClicked);
     const randomLines = useSelector((state: RootState) => state.table.lines);
     let portalNumber = 0;
     return (
@@ -70,7 +79,10 @@ function TableComponent() {
                 {portals.map(portal => (
                     <tr key={portalNumber}>
                         <td>{++portalNumber}</td>
-                        <td>{portal.distFromStart}</td>
+                        <td onClick={() => {
+                            store.dispatch(changeClickedValue(true));
+                        }}>{!isClicked && portal.distFromStart}
+                            {isClicked && <input></input>}</td>
                         <td>{store.getState().form.widthOfModel}</td>
                         <td>{portal.heightOfPortal}</td>
                         <td>{portal.numberOfPortalLayers}</td>
@@ -93,6 +105,13 @@ function TableComponent() {
                                                 store.dispatch(removeRandomLine(randomLine.secondLineId));
                                             }
                                         }));
+                                        if(removedLineId === portals[portals.length - 1].id) {
+                                            sections.forEach(section => {
+                                                if(section.firstPortalId === removedLineId || section.secondPortalId === removedLineId) {
+                                                    store.dispatch(removeSection(section.id));
+                                                }
+                                            })
+                                        }
                                     }
                                     store.dispatch(removeLine(removedLineId));
                                 }

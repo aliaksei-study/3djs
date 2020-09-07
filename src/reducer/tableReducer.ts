@@ -48,6 +48,7 @@ export const ACTION_REMOVE_PORTALS = 'ACTION_REMOVE_PORTALS';
 export const ACTION_ADD_LINE = 'ACTION_ADD_LINE';
 export const ACTION_REMOVE_MODEL = 'ACTION_REMOVE_MODEL';
 export const ACTION_REMOVE_RANDOM_LINE = 'ACTION_REMOVE_RANDOM_LINE';
+export const ACTION_REMOVE_SECTION_LINE = 'ACTION_REMOVE_SECTION_LINE';
 
 export const addPortal = (newPortal: Portal) => {
     return {
@@ -112,6 +113,13 @@ export const removeRandomLine = (removedLineId: number) => {
     }
 };
 
+export const removeSection = (removedLineId: number) => {
+    return {
+        type: ACTION_REMOVE_SECTION_LINE,
+        payload: removedLineId
+    }
+};
+
 export const tableReducer = (state: TableState = initialState, action: any): TableState => {
     switch (action.type) {
         case ACTION_ADD_PORTAL: {
@@ -144,6 +152,9 @@ export const tableReducer = (state: TableState = initialState, action: any): Tab
         }
         case ACTION_REMOVE_RANDOM_LINE: {
             return {...state, lines: [...state.lines.filter(line => line.firstLineId !== action.payload && line.secondLineId !== action.payload)]}
+        }
+        case ACTION_REMOVE_SECTION_LINE: {
+            return {...state, sections: [...state.sections.filter(section => section.id !== action.payload)]}
         }
         default:
             return state;
