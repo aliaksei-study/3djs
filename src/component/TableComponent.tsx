@@ -12,6 +12,7 @@ import {
 } from "../reducer/modalReducer";
 import AddLineComponent from "./AddLineComponent";
 import SplitModelComponent from "./SplitModelComponent";
+import InputCellComponent from "./InputCellComponent";
 
 /*
 * InputCell = () => {
@@ -79,13 +80,10 @@ function TableComponent() {
                 {portals.map(portal => (
                     <tr key={portalNumber}>
                         <td>{++portalNumber}</td>
-                        <td onClick={() => {
-                            store.dispatch(changeClickedValue(true));
-                        }}>{!isClicked && portal.distFromStart}
-                            {isClicked && <input></input>}</td>
+                        <InputCellComponent value={portal.distFromStart}/>
                         <td>{store.getState().form.widthOfModel}</td>
-                        <td>{portal.heightOfPortal}</td>
-                        <td>{portal.numberOfPortalLayers}</td>
+                        <InputCellComponent value={portal.heightOfPortal}/>
+                        <InputCellComponent value={portal.numberOfPortalLayers}/>
                         <td>
                             <button onClick={(event) => {
                                 store.dispatch(setPortalId(portal.id));
