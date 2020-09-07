@@ -2,7 +2,6 @@ import React, {ChangeEvent} from 'react';
 import {Button, Form, Modal} from 'react-bootstrap'
 import {useSelector, useStore} from "react-redux";
 import {RootState} from "../store/store";
-import {setPortalId} from "../reducer/editPortalReducer";
 import {changeAddLineModalShowedValue} from "../reducer/modalReducer";
 import {setDistFromStart, setFirstLineId, setSecondLineId} from "../reducer/addLineReducer";
 import {generateLine} from "../service/LineService";
@@ -40,7 +39,6 @@ function AddLineComponent() {
     saveIDsToMap(portalsId, sectionsId, randomLinesIds, map);
     return (
         <Modal show={isShowed} onHide={(event: Event) => {
-            store.dispatch(setPortalId(null));
             store.dispatch(changeAddLineModalShowedValue(false));
         }}>
             <Modal.Header closeButton>
@@ -97,7 +95,6 @@ function AddLineComponent() {
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="secondary" onClick={() => {
-                    store.dispatch(setPortalId(null));
                     store.dispatch(changeAddLineModalShowedValue(false));
                 }}>
                     Close
@@ -126,7 +123,6 @@ function AddLineComponent() {
                         let generatedLine = generateLine(lines, distFromStart, firstLineId, secondLineId);
                         store.dispatch(addLine(generatedLine));
                     }
-                    store.dispatch(setPortalId(null));
                     store.dispatch(changeAddLineModalShowedValue(false));
                 }}>
                     Add line

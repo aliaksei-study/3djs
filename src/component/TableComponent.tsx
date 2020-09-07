@@ -1,14 +1,19 @@
 import React from 'react';
 import {useSelector, useStore} from "react-redux";
-import {generatePortal} from "../service/PortalService";
-import {addPortal, addSection, removeLine, removeModel, removeRandomLine, removeSection} from "../reducer/tableReducer";
-import {generateSection} from "../service/SectionService";
+import {generatePortal, regeneratePortal} from "../service/PortalService";
+import {
+    addPortal,
+    addSection,
+    generatePortals, generateSections,
+    removeLine,
+    removeModel,
+    removeRandomLine,
+    removeSection
+} from "../reducer/tableReducer";
+import {generateSection, regenerateSections} from "../service/SectionService";
 import {RootState} from "../store/store";
-import EditPortalComponent from "./EditPortalComponent";
-import {changeClickedValue, setPortalId} from "../reducer/editPortalReducer";
 import {
     changeAddLineModalShowedValue,
-    changeEditPortalModalShowedValue,
 } from "../reducer/modalReducer";
 import AddLineComponent from "./AddLineComponent";
 import SplitModelComponent from "./SplitModelComponent";
@@ -27,9 +32,12 @@ function TableComponent() {
     let tableState = store.getState().table;
     const portals = useSelector((state: RootState) => state.table.portals);
     const sections = useSelector((state: RootState) => state.table.sections);
-    const isClicked = useSelector((state: RootState) => state.editPortal.isClicked);
     const randomLines = useSelector((state: RootState) => state.table.lines);
+    let widthOfModel = store.getState().form.widthOfModel;
+    let numberOfLayers = store.getState().form.numberOfLayers;
     let portalNumber = 0;
+    // @ts-ignore
+    let stepLayer = store.getState().form.heightOfModel / store.getState().form.numberOfLayers;
     return (
         <div className="container">
             <button type="button"
@@ -80,16 +88,26 @@ function TableComponent() {
                 {portals.map(portal => (
                     <tr key={portalNumber}>
                         <td>{++portalNumber}</td>
-                        <InputCellComponent value={portal.distFromStart}/>
+                        <InputCellComponent value={{value:portal.distFromStart, onChange: (event: Event, newDistFromStart:number) => {
+                                store.dispatch(generatePortals(regeneratePortal(portals, portal.id, newDistFromStart,
+                                    portal.heightOfPortal, portal.numberOfPortalLayers, widthOfModel === null ? 0 : widthOfModel)));
+                                store.dispatch(generateSections(regenerateSections(sections, portal.id, store.getState().table.portals, stepLayer,
+                                    widthOfModel === null ? 0 : widthOfModel, numberOfLayers === null ? 0 : numberOfLayers)));
+                            }}}/>
                         <td>{store.getState().form.widthOfModel}</td>
-                        <InputCellComponent value={portal.heightOfPortal}/>
-                        <InputCellComponent value={portal.numberOfPortalLayers}/>
+                        <InputCellComponent value={{value:portal.heightOfPortal, onChange: (event: Event, newHeightOfPortal:number) => {
+                                store.dispatch(generatePortals(regeneratePortal(portals, portal.id, portal.distFromStart,
+                                    newHeightOfPortal, portal.numberOfPortalLayers, widthOfModel === null ? 0 : widthOfModel)));
+                                store.dispatch(generateSections(regenerateSections(sections, portal.id, store.getState().table.portals, stepLayer,
+                                    widthOfModel === null ? 0 : widthOfModel, numberOfLayers === null ? 0 : numberOfLayers)));
+                            }}}/>
+                        <InputCellComponent value={{value:portal.numberOfPortalLayers, onChange: (event: Event, newNumberOfPortalLayers:number) => {
+                                store.dispatch(generatePortals(regeneratePortal(portals, portal.id, portal.distFromStart,
+                                    portal.heightOfPortal, newNumberOfPortalLayers, widthOfModel === null ? 0 : widthOfModel)));
+                                store.dispatch(generateSections(regenerateSections(sections, portal.id, store.getState().table.portals, stepLayer,
+                                    widthOfModel === null ? 0 : widthOfModel, numberOfLayers === null ? 0 : numberOfLayers)));
+                            }}}/>
                         <td>
-                            <button onClick={(event) => {
-                                store.dispatch(setPortalId(portal.id));
-                                store.dispatch(changeEditPortalModalShowedValue(true));
-                            }}>Edit
-                            </button>
                             <button
                                 onClick={(event) => {
                                     let removedLineId = portal.id;
@@ -121,7 +139,6 @@ function TableComponent() {
                 ))}
                 </tbody>
             </table>
-                    <EditPortalComponent/>
                     <AddLineComponent/>
                     </div>
                 )

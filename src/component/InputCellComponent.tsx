@@ -5,8 +5,13 @@ function InputCellComponent(props: any) {
     return (
         <td onClick={() => {
             setUpdatable(true);
-        }}
-        onBlur={() => setUpdatable(false)}>{isUpdatable && <input></input>} {!isUpdatable && props.value}</td>
+        }}>{isUpdatable &&
+        <input autoFocus={true}
+               onBlur={() => setUpdatable(false)}
+               defaultValue={props.value.value}
+               onChange={(event) => props.value.onChange(event, +event.target.value)}
+        />} {!isUpdatable && props.value.value}
+        </td>
     )
 }
 

@@ -97,3 +97,13 @@ export function dividePortalLine(firstPortalIndex: number, lastPortalIndex: numb
     }
     return dividedLines;
 }
+
+export function regeneratePortal(portals: Array<Portal>, portalId: number, newDistFromStart: number, newHeightOfPortal: number,
+                          newNumberOfLayers: number, widthOfModel: number): Array<Portal> {
+    let editablePortals = Array.from(portals);
+    let generatedPortal = generatePortal(newDistFromStart, newDistFromStart, newHeightOfPortal, widthOfModel, newNumberOfLayers);
+    generatedPortal.id = portalId;
+    let index = editablePortals.findIndex(portal => portal.id === portalId);
+    editablePortals.splice(index, 1, generatedPortal);
+    return editablePortals;
+}

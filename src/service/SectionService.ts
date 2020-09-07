@@ -33,3 +33,29 @@ export function splitSections(sections: Array<Section>, randomLines: Array<Rando
     }
     return splitedSectionLines;
 }
+
+export function regenerateSections(sections: Array<Section>, portalId: number, portals: Array<Portal>, stepLayer: number,
+                            widthOfModel: number, numberOfLayers: number): Array<Section> {
+    let editablePortals = Array.from(portals);
+    let editableSections = Array.from(sections);
+    let changedSections: Array<Section> = Array.from(sections).filter(section => section.firstPortalId === portalId ||
+        section.secondPortalId === portalId);
+    let sectionId;
+    for (let i = 0, key = 0; i < changedSections.length; i++, key++) {
+        let newSection;
+        sectionId = changedSections[i].id;
+        let firstPortal = editablePortals.find(portal => portal.id === changedSections[i].firstPortalId);
+        let secondPortal = editablePortals.find(portal => portal.id === changedSections[i].secondPortalId);
+        if (key === numberOfLayers) {
+            key = 0;
+        }
+        if (firstPortal !== undefined && secondPortal !== undefined) {
+            newSection = generateSection(stepLayer * (key + 1), firstPortal, secondPortal, widthOfModel);
+            newSection.id = sectionId;
+        }
+        if (newSection !== undefined) {
+            editableSections.splice(editableSections.indexOf(changedSections[i]), 1, newSection);
+        }
+    }
+    return editableSections;
+}
