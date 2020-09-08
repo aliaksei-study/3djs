@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import {ACTION_GENERATE_PORTALS, ACTION_GENERATE_SECTIONS} from "./formReducer";
+import {TableActionTypes} from "../types/TableActionTypes";
 
 export interface TableState {
     sections: Array<Section>,
@@ -50,77 +51,77 @@ export const ACTION_REMOVE_MODEL = 'ACTION_REMOVE_MODEL';
 export const ACTION_REMOVE_RANDOM_LINE = 'ACTION_REMOVE_RANDOM_LINE';
 export const ACTION_REMOVE_SECTION_LINE = 'ACTION_REMOVE_SECTION_LINE';
 
-export const addPortal = (newPortal: Portal) => {
+export const addPortal = (newPortal: Portal): TableActionTypes => {
     return {
         type: ACTION_ADD_PORTAL,
         payload: newPortal
     }
 };
 
-export const addSection = (newSection: Section) => {
+export const addSection = (newSection: Section): TableActionTypes => {
     return {
         type: ACTION_ADD_SECTION,
         payload: newSection
     }
 };
 
-export const removeLine = (removedObjectId: number) => {
+export const removeLine = (removedObjectId: number): TableActionTypes => {
     return {
         type: ACTION_REMOVE_LINE,
         payload: removedObjectId
     }
 };
 
-export const removePortal = (deletedPortalId: number) => {
+export const removePortal = (deletedPortalId: number): TableActionTypes => {
     return {
         type: ACTION_REMOVE_PORTALS,
         payload: deletedPortalId
     }
 };
 
-export const generatePortals = (newPortals: Array<Portal>) => {
+export const generatePortals = (newPortals: Array<Portal>): TableActionTypes => {
     return {
         type: ACTION_GENERATE_PORTALS,
         payload: newPortals
     }
 };
 
-export const generateSections = (newSectionLines: Array<Section>) => {
+export const generateSections = (newSectionLines: Array<Section>): TableActionTypes => {
     return {
         type: ACTION_GENERATE_SECTIONS,
         payload: newSectionLines
     }
 };
 
-export const addLine = (newLine: Line) => {
+export const addLine = (newLine: RandomLine): TableActionTypes => {
     return {
         type: ACTION_ADD_LINE,
         payload: newLine
     }
 };
 
-export const removeModel = () => {
+export const removeModel = (): TableActionTypes => {
     return {
         type: ACTION_REMOVE_MODEL,
         payload: initialState
     }
 };
 
-export const removeRandomLine = (removedLineId: number) => {
+export const removeRandomLine = (removedLineId: number): TableActionTypes => {
     return {
         type: ACTION_REMOVE_RANDOM_LINE,
         payload: removedLineId
     }
 };
 
-export const removeSection = (removedLineId: number) => {
+export const removeSection = (removedLineId: number): TableActionTypes => {
     return {
         type: ACTION_REMOVE_SECTION_LINE,
         payload: removedLineId
     }
 };
 
-export const tableReducer = (state: TableState = initialState, action: any): TableState => {
+export const tableReducer = (state: TableState = initialState, action: TableActionTypes): TableState => {
     switch (action.type) {
         case ACTION_ADD_PORTAL: {
             return {...state, portals: [...state.portals, action.payload]}

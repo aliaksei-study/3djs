@@ -1,6 +1,6 @@
 import React, {ChangeEvent} from 'react';
 import {Button, Form, Modal} from 'react-bootstrap'
-import {useSelector, useStore} from "react-redux";
+import {useDispatch, useSelector, useStore} from "react-redux";
 import {RootState} from "../store/store";
 import {changeAddLineModalShowedValue} from "../reducer/modalReducer";
 import {setDistFromStart, setFirstLineId, setSecondLineId} from "../reducer/addLineReducer";
@@ -36,6 +36,7 @@ function AddLineComponent() {
     const sectionsId = useSelector((state: RootState) => state.table.sections.flatMap(section =>
         section.sectionLines.map(sectionLine => sectionLine.id)));
     const randomLinesIds = useSelector((state: RootState) => state.table.lines.map(line => line.id));
+    const dispatch = useDispatch();
 
     saveIDsToMap(portalsId, sectionsId, randomLinesIds, map);
 
@@ -61,13 +62,13 @@ function AddLineComponent() {
                 }
             });
             let generatedLine = generateLine(lines, distFromStart, firstLineId, secondLineId);
-            store.dispatch(addLine(generatedLine));
+            dispatch(addLine(generatedLine));
         }
     }
 
     return (
         <Modal show={isShowed} onHide={(event: Event) => {
-            store.dispatch(changeAddLineModalShowedValue(false));
+            dispatch(changeAddLineModalShowedValue(false));
         }}>
             <Modal.Header closeButton>
                 <Modal.Title>Add line</Modal.Title>
@@ -83,7 +84,7 @@ function AddLineComponent() {
                                     return value.key === event.target.value;
                                 });
                                 if (selectedObject !== undefined) {
-                                    store.dispatch(setFirstLineId(selectedObject.value));
+                                    dispatch(setFirstLineId(selectedObject.value));
                                 }
                             }}>
                                 <option>Choose first line id</option>
@@ -101,7 +102,7 @@ function AddLineComponent() {
                                     return value.key === event.target.value;
                                 });
                                 if (selectedObject !== undefined) {
-                                    store.dispatch(setSecondLineId(selectedObject.value));
+                                    dispatch(setSecondLineId(selectedObject.value));
                                 }
                             }}>
                                 <option>Choose second line id</option>
@@ -113,7 +114,7 @@ function AddLineComponent() {
                             </Form.Control>
                         </Form.Group>
                         <Form.Group controlId="distFromStartInput" onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                            store.dispatch(setDistFromStart(+event.target.value));
+                            dispatch(setDistFromStart(+event.target.value));
                         }}>
                             <Form.Label>Distance from start</Form.Label>
                             <Form.Control type="number" placeholder="Enter distance from start"/>
@@ -123,13 +124,13 @@ function AddLineComponent() {
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="secondary" onClick={() => {
-                    store.dispatch(changeAddLineModalShowedValue(false));
+                    dispatch(changeAddLineModalShowedValue(false));
                 }}>
                     Close
                 </Button>
                 <Button variant="primary" onClick={() => {
                     addModelLine();
-                    store.dispatch(changeAddLineModalShowedValue(false));
+                    dispatch(changeAddLineModalShowedValue(false));
                 }}>
                     Add line
                 </Button>

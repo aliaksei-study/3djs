@@ -1,3 +1,5 @@
+import {AddLineActionTypes} from "../types/AddLineActionTypes";
+
 export interface AddLineState {
     firstLineId: number | null,
     secondLineId: number | null,
@@ -14,28 +16,28 @@ export const ACTION_SET_FIRST_LINE_ID = 'ACTION_SET_FIRST_LINE_ID';
 export const ACTION_SET_SECOND_LINE_ID = 'ACTION_SET_SECOND_LINE_ID';
 export const ACTION_SET_DIST_FROM_START = 'ACTION_SET_DIST_FROM_START';
 
-export const setFirstLineId = (firstLineId: number) => {
+export const setFirstLineId = (firstLineId: number): AddLineActionTypes => {
     return {
         type: ACTION_SET_FIRST_LINE_ID,
         payload: firstLineId
     }
 };
 
-export const setSecondLineId = (secondLineId: number) => {
+export const setSecondLineId = (secondLineId: number): AddLineActionTypes => {
     return {
         type: ACTION_SET_SECOND_LINE_ID,
         payload: secondLineId
     }
 };
 
-export const setDistFromStart = (distFromStart: number) => {
+export const setDistFromStart = (distFromStart: number): AddLineActionTypes => {
     return {
         type: ACTION_SET_DIST_FROM_START,
         payload: distFromStart
     }
 };
 
-export const addLineReducer = (state: AddLineState = initialState, action: any): AddLineState => {
+export const addLineReducer = (state: AddLineState = initialState, action: AddLineActionTypes): AddLineState => {
     switch (action.type) {
         case ACTION_SET_FIRST_LINE_ID: {
             return {...state, firstLineId: action.payload}

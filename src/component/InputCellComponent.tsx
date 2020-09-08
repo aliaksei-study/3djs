@@ -6,7 +6,7 @@ type Props = {
 }
 
 function InputCellComponent(props: Props) {
-    const [isUpdatable, setUpdatable] = useState(false);
+    const [isUpdatable, setUpdatable] = useState<boolean>(false);
     const [inside, setInside] = useState<number>(0);
 
     useEffect(() => {
