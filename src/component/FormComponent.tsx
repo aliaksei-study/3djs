@@ -1,5 +1,5 @@
-import React from 'react';
-import {useSelector, useStore} from 'react-redux';
+import React, {ChangeEvent, useState} from 'react';
+import {useDispatch, useSelector, useStore} from 'react-redux';
 import {
     changeHeightOfModel,
     changeLengthOfModel,
@@ -18,6 +18,38 @@ import {RootState} from "../store/store";
 function FormComponent() {
     const store = useStore<RootState, any>();
     const generateButton = useSelector((state: RootState) => state.generateButton.isPressed);
+    const numberOfPortals = useSelector((state:RootState) => state.form.numberOfPortals);
+    const heightOfModel = useSelector((state:RootState) => state.form.heightOfModel);
+    const numberOfLayers = useSelector((state:RootState) => state.form.numberOfLayers);
+    const widthOfModel = useSelector((state:RootState) => state.form.widthOfModel);
+    const lengthOfModel = useSelector((state: RootState) => state.form.lengthOfModel);
+    const dispatch = useDispatch();
+
+    function generateModel() {
+        let portals: Portal[] = [];
+        let sections: Section[] = [];
+        let distFromStart = 0;
+        if(lengthOfModel !== null && numberOfPortals !== null && heightOfModel !== null &&
+            numberOfLayers !== null && widthOfModel !== null) {
+            let step = lengthOfModel / (numberOfPortals - 1);
+            let stepLayer = heightOfModel / numberOfLayers;
+            for (let j = 0; j < numberOfPortals; j++) {
+                portals.push(generatePortal(step, distFromStart, heightOfModel, widthOfModel, numberOfLayers));
+                distFromStart += step;
+            }
+            dispatch(generatePortals(portals));
+            let tableState = store.getState().table;
+            for (let j = 0; j < numberOfPortals - 1; j++) {
+                for (let i = 0; i < numberOfLayers; i++) {
+                    sections.push(generateSection(stepLayer, tableState.portals[j], tableState.portals[j + 1], widthOfModel));
+                    stepLayer += stepLayer;
+                }
+            }
+        }
+        dispatch(generateSections(sections));
+        dispatch(pressGenerateButton(true));
+    }
+
     return (
         <div>
             <form className="mt-3 ml-5 mr-5">
@@ -28,8 +60,8 @@ function FormComponent() {
                             className="form-control"
                             id="layersInput"
                             placeholder="Number of layers"
-                            onChange={(event) => {
-                                store.dispatch(changeNumberOfLayers(+event.target.value));
+                            onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                                dispatch(changeNumberOfLayers(+event.target.value));
                             }}
                         />
                     </div>
@@ -39,8 +71,8 @@ function FormComponent() {
                             className="form-control"
                             id="portalsInput"
                             placeholder="Number of portals"
-                            onChange={(event) => {
-                                store.dispatch(changeNumberOfPortals(+event.target.value));
+                            onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                                dispatch(changeNumberOfPortals(+event.target.value));
                             }}
                         />
                     </div>
@@ -52,8 +84,8 @@ function FormComponent() {
                             className="form-control"
                             id="lengthInput"
                             placeholder="Length of model"
-                            onChange={(event) => {
-                                store.dispatch(changeLengthOfModel(+event.target.value));
+                            onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                                dispatch(changeLengthOfModel(+event.target.value));
                             }}
                         />
                     </div>
@@ -63,8 +95,8 @@ function FormComponent() {
                             className="form-control"
                             id="heightInput"
                             placeholder="Height of model"
-                            onChange={(event) => {
-                                store.dispatch(changeHeightOfModel(+event.target.value));
+                            onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                                dispatch(changeHeightOfModel(+event.target.value));
                             }}
                         />
                     </div>
@@ -76,8 +108,8 @@ function FormComponent() {
                             className="form-control"
                             id="widthInput"
                             placeholder="Width of model"
-                            onChange={(event) => {
-                                store.dispatch(changeWidthOfModel(+event.target.value));
+                            onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                                dispatch(changeWidthOfModel(+event.target.value));
                             }}
                         />
                     </div>
@@ -85,30 +117,7 @@ function FormComponent() {
                 <button type="button"
                         className="btn btn-outline-success mt-3 mx-auto d-block"
                         onClick={(event) => {
-                            let portals: Portal[] = [];
-                            let sections: Section[] = [];
-                            let formState = store.getState().form;
-                            let distFromStart = 0;
-                            let step = formState.lengthOfModel == null ? 0 : formState.lengthOfModel /
-                                (formState.numberOfPortals == null ? 0 : formState.numberOfPortals - 1);
-                            // @ts-ignore
-                            let stepLayer = formState.heightOfModel / formState.numberOfLayers;
-                            for (let j = 0; j < (formState.numberOfPortals === null ? 0 : formState.numberOfPortals); j++) {
-                                // @ts-ignore
-                                portals.push(generatePortal(step, distFromStart, formState.heightOfModel, formState.widthOfModel, formState.numberOfLayers));
-                                distFromStart += step;
-                            }
-                            store.dispatch(generatePortals(portals));
-                            let tableState = store.getState().table;
-                            for (let j = 0; j < (formState.numberOfPortals === null ? 0 : formState.numberOfPortals - 1); j++) {
-                                for (let i = 0; i < (formState.numberOfLayers === null ? 0 : formState.numberOfLayers); i++) {
-                                    sections.push(generateSection(stepLayer, tableState.portals[j], tableState.portals[j + 1],
-                                        formState.widthOfModel === null ? 0 : formState.widthOfModel));
-                                    stepLayer += stepLayer;
-                                }
-                            }
-                            store.dispatch(generateSections(sections));
-                            store.dispatch(pressGenerateButton(true));
+                            generateModel();
                         }
                         }>Generate
                 </button>
@@ -120,21 +129,3 @@ function FormComponent() {
 }
 
 export default FormComponent;
-
-/*
-<div className="col">
-                        <select
-                            id="inputDirection"
-                            defaultValue={"+X"}
-                            className="form-control"
-                            onChange={(event) => {
-                                store.dispatch(changeDirection(event.target.value));
-                            }}
-                        >
-                            <option>+X</option>
-                            <option>-X</option>
-                            <option>+Z</option>
-                            <option>-Z</option>
-                        </select>
-                    </div>
- */

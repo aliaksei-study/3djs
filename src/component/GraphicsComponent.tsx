@@ -1,6 +1,6 @@
 import React, {useMemo} from 'react';
 import * as THREE from "three";
-import {Scene} from "three";
+import {Color, Line3, LineCurve3, Scene} from "three";
 import {useSelector, useStore} from "react-redux";
 import {Line, Portal, removePortal, Section} from "../reducer/tableReducer";
 import {RootState} from "../store/store";

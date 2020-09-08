@@ -9,6 +9,7 @@ function SplitModelComponent() {
     const lines = useSelector((state: RootState) => state.table.lines);
     const heightOfModel = useSelector((state: RootState) => state.form.heightOfModel);
     const numberOfLayers = useSelector((state: RootState) => state.form.numberOfLayers);
+
     return (
         <button type="button" className="btn btn-dark ml-3" onClick={() => {
             if(heightOfModel !== null && numberOfLayers !== null) {

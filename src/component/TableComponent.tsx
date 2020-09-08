@@ -1,10 +1,10 @@
 import React from 'react';
-import {useSelector, useStore} from "react-redux";
+import {useDispatch, useSelector, useStore} from "react-redux";
 import {generatePortal, regeneratePortal} from "../service/PortalService";
 import {
     addPortal,
     addSection,
-    generatePortals, generateSections,
+    generatePortals, generateSections, Portal,
     removeLine,
     removeModel,
     removeRandomLine,
@@ -19,57 +19,89 @@ import AddLineComponent from "./AddLineComponent";
 import SplitModelComponent from "./SplitModelComponent";
 import InputCellComponent from "./InputCellComponent";
 
-/*
-* InputCell = () => {
-*
-* return <td>...</td>
-* }
-* */
-
 function TableComponent() {
     const store = useStore<RootState, any>();
-    let formState = store.getState().form;
-    let tableState = store.getState().table;
     const portals = useSelector((state: RootState) => state.table.portals);
     const sections = useSelector((state: RootState) => state.table.sections);
     const randomLines = useSelector((state: RootState) => state.table.lines);
-    let widthOfModel = store.getState().form.widthOfModel;
-    let numberOfLayers = store.getState().form.numberOfLayers;
+    const widthOfModel = useSelector((state: RootState) => state.form.widthOfModel);
+    const numberOfLayers = useSelector((state:RootState) => state.form.numberOfLayers);
+    const heightOfModel = useSelector((state:RootState) => state.form.heightOfModel);
+    const numberOfPortals = useSelector((state: RootState) => state.form.numberOfPortals);
+
+    const dispatch = useDispatch();
+
     let portalNumber = 0;
-    // @ts-ignore
-    let stepLayer = store.getState().form.heightOfModel / store.getState().form.numberOfLayers;
+    let stepLayer = (heightOfModel === null ? 0 : heightOfModel) / (numberOfLayers === null ? 1 : numberOfLayers);
+
+    function handleChangeTableParameter(portal: Portal, newDistanceFromStart?: number, newHeightOfPortal?: number,
+                                        newNumberOfPortalLayers?: number) {
+        dispatch(generatePortals(regeneratePortal(portals, portal.id,
+            newDistanceFromStart === undefined ? portal.distFromStart : newDistanceFromStart,
+            newHeightOfPortal === undefined ? portal.heightOfPortal : newHeightOfPortal,
+            newNumberOfPortalLayers === undefined ? portal.numberOfPortalLayers: newNumberOfPortalLayers,
+            widthOfModel === null ? 0 : widthOfModel)));
+        dispatch(generateSections(regenerateSections(sections, portal.id, store.getState().table.portals, stepLayer,
+            widthOfModel === null ? 0 : widthOfModel, numberOfLayers === null ? 0 : numberOfLayers)));
+    }
+
+    function buildNewPortal() {
+        let generatedPortal;
+        let stepLayer = (heightOfModel === null ? 0 : heightOfModel) /
+            (numberOfLayers === null ? 0 : numberOfLayers);
+        let portal = Array.from(portals).pop();
+        if (portal !== undefined && heightOfModel !== null && widthOfModel !== null && numberOfPortals !== null) {
+            generatedPortal = generatePortal(portal.step, portal.distFromStart + portal.step,
+                heightOfModel, widthOfModel, numberOfPortals);
+            dispatch(addPortal(generatedPortal));
+        }
+        for (let numberOfSection = 0; numberOfSection < (numberOfLayers === null ? 0 : numberOfLayers);
+             numberOfSection++) {
+            let generatedSection;
+            if (generatedPortal !== undefined && portal !== undefined) {
+                generatedSection = generateSection(stepLayer, generatedPortal, portal,
+                    widthOfModel === null ? 0 : widthOfModel);
+            }
+            if (generatedSection !== undefined) {
+                stepLayer += stepLayer;
+                dispatch(addSection(generatedSection));
+            }
+        }
+    }
+
+    function removeLineFromModel(portal: Portal) {
+        let removedLineId = portal.id;
+        if (removedLineId === portals[0].id) {
+            dispatch(removeModel());
+        } else {
+            portal.portalLines.forEach(line => randomLines.forEach(randomLine => {
+                if (randomLine.firstLineId === line.id) {
+                    dispatch(removeRandomLine(randomLine.firstLineId));
+                } else if (randomLine.secondLineId === line.id) {
+                    dispatch(removeRandomLine(randomLine.secondLineId));
+                }
+            }));
+            if(removedLineId === portals[portals.length - 1].id) {
+                sections.forEach(section => {
+                    if(section.firstPortalId === removedLineId || section.secondPortalId === removedLineId) {
+                        dispatch(removeSection(section.id));
+                    }
+                })
+            }
+        }
+        dispatch(removeLine(removedLineId));
+    }
+
     return (
         <div className="container">
             <button type="button"
                     className="btn btn-outline-success"
                     onClick={(event) => {
-                        let generatedPortal;
-                        let stepLayer = (formState.heightOfModel === null ? 0 : formState.heightOfModel) /
-                            (formState.numberOfLayers === null ? 0 : formState.numberOfLayers);
-                        let portal = Array.from(tableState.portals).pop();
-                        if (portal !== undefined && formState.heightOfModel !== null && formState.widthOfModel !== null
-                            && formState.numberOfPortals !== null) {
-                            generatedPortal = generatePortal(portal.step, portal.distFromStart + portal.step,
-                                formState.heightOfModel, formState.widthOfModel, formState.numberOfPortals);
-                            store.dispatch(addPortal(generatedPortal));
-                        }
-                        for (let numberOfSection = 0; numberOfSection < (formState.numberOfLayers === null ? 0 : formState.numberOfLayers);
-                             numberOfSection++) {
-                            let generatedSection;
-                            if (generatedPortal !== undefined && portal !== undefined) {
-                                generatedSection = generateSection(stepLayer, generatedPortal, portal,
-                                    formState.widthOfModel === null ? 0 : formState.widthOfModel);
-                            }
-                            if (generatedSection !== undefined) {
-                                stepLayer += stepLayer;
-                                store.dispatch(addSection(generatedSection));
-                            }
-                        }
+                        buildNewPortal();
                     }}
-            >Add
-            </button>
+            >Add</button>
             <button type="button" className=" ml-3 btn btn-outline-success" onClick={(event) => {
-                store.dispatch(changeAddLineModalShowedValue(true));
+                dispatch(changeAddLineModalShowedValue(true));
             }}>Add Line
             </button>
             <SplitModelComponent/>
@@ -88,50 +120,19 @@ function TableComponent() {
                 {portals.map(portal => (
                     <tr key={portalNumber}>
                         <td>{++portalNumber}</td>
-                        <InputCellComponent value={{value:portal.distFromStart, onChange: (event: Event, newDistFromStart:number) => {
-                                store.dispatch(generatePortals(regeneratePortal(portals, portal.id, newDistFromStart,
-                                    portal.heightOfPortal, portal.numberOfPortalLayers, widthOfModel === null ? 0 : widthOfModel)));
-                                store.dispatch(generateSections(regenerateSections(sections, portal.id, store.getState().table.portals, stepLayer,
-                                    widthOfModel === null ? 0 : widthOfModel, numberOfLayers === null ? 0 : numberOfLayers)));
-                            }}}/>
-                        <td>{store.getState().form.widthOfModel}</td>
-                        <InputCellComponent value={{value:portal.heightOfPortal, onChange: (event: Event, newHeightOfPortal:number) => {
-                                store.dispatch(generatePortals(regeneratePortal(portals, portal.id, portal.distFromStart,
-                                    newHeightOfPortal, portal.numberOfPortalLayers, widthOfModel === null ? 0 : widthOfModel)));
-                                store.dispatch(generateSections(regenerateSections(sections, portal.id, store.getState().table.portals, stepLayer,
-                                    widthOfModel === null ? 0 : widthOfModel, numberOfLayers === null ? 0 : numberOfLayers)));
-                            }}}/>
-                        <InputCellComponent value={{value:portal.numberOfPortalLayers, onChange: (event: Event, newNumberOfPortalLayers:number) => {
-                                store.dispatch(generatePortals(regeneratePortal(portals, portal.id, portal.distFromStart,
-                                    portal.heightOfPortal, newNumberOfPortalLayers, widthOfModel === null ? 0 : widthOfModel)));
-                                store.dispatch(generateSections(regenerateSections(sections, portal.id, store.getState().table.portals, stepLayer,
-                                    widthOfModel === null ? 0 : widthOfModel, numberOfLayers === null ? 0 : numberOfLayers)));
-                            }}}/>
+                        <InputCellComponent value={portal.distFromStart} onChange={(newDistFromStart: number) =>
+                            handleChangeTableParameter(portal, newDistFromStart)
+                        }/>
+                        <td>{widthOfModel}</td>
+                        <InputCellComponent value={portal.heightOfPortal} onChange={(newHeightOfPortal:number) =>
+                            handleChangeTableParameter(portal, undefined, newHeightOfPortal)
+                        }/>
+                        <InputCellComponent value={portal.numberOfPortalLayers} onChange={(newNumberOfPortalLayers: number) =>
+                            handleChangeTableParameter(portal, undefined, undefined, newNumberOfPortalLayers)
+                        }/>
                         <td>
                             <button
-                                onClick={(event) => {
-                                    let removedLineId = portal.id;
-                                    if (removedLineId === portals[0].id) {
-                                        store.dispatch(removeModel());
-                                    } else {
-                                        portal.portalLines.forEach(line => randomLines.forEach(randomLine => {
-                                            if (randomLine.firstLineId === line.id) {
-                                                store.dispatch(removeRandomLine(randomLine.firstLineId));
-                                            } else if (randomLine.secondLineId === line.id) {
-                                                store.dispatch(removeRandomLine(randomLine.secondLineId));
-                                            }
-                                        }));
-                                        if(removedLineId === portals[portals.length - 1].id) {
-                                            sections.forEach(section => {
-                                                if(section.firstPortalId === removedLineId || section.secondPortalId === removedLineId) {
-                                                    store.dispatch(removeSection(section.id));
-                                                }
-                                            })
-                                        }
-                                    }
-                                    store.dispatch(removeLine(removedLineId));
-                                }
-                                }
+                                onClick={(event) => removeLineFromModel(portal)}
                             >Delete
                             </button>
                         </td>
@@ -139,9 +140,9 @@ function TableComponent() {
                 ))}
                 </tbody>
             </table>
-                    <AddLineComponent/>
-                    </div>
-                )
-                }
+            <AddLineComponent/>
+        </div>
+    )
+}
 
-                export default TableComponent;
+export default TableComponent;
