@@ -1,6 +1,6 @@
 import React, {useMemo} from 'react';
 import * as THREE from "three";
-import {Color, Line3, LineCurve3, Scene} from "three";
+import {AxesHelper, Mesh, Scene} from "three";
 import {useSelector, useStore} from "react-redux";
 import {Line, Portal, removePortal, Section} from "../reducer/tableReducer";
 import {RootState} from "../store/store";
@@ -68,12 +68,35 @@ function GraphicsComponent() {
     while (scene.children.length > 0) {
         scene.remove(scene.children[0]);
     }
+
+    let arcShape = new THREE.Shape();
+    arcShape.absarc(0, 0, 1, 0, Math.PI * 2, false);
+
+    let holePath = new THREE.Path();
+    holePath.absarc(0, 0, 0.8, 0, Math.PI * 2, true);
+    arcShape.holes.push(holePath);
+
+    let mesh = new Mesh(new THREE.ExtrudeGeometry( arcShape, {
+        steps : 1,
+        bevelEnabled: false,
+        curveSegments: 8,
+        depth: -10
+    }));
+
+    mesh.position.setX(-10);
+
+    mesh.rotateY(-Math.PI / 2);
+    mesh.rotation.x += 0.7;
+    mesh.rotation.y += 0.7;
+    mesh.add(new AxesHelper(5));
+    scene.add(mesh);
     drawPortals(portals, scene);
     drawSections(sections, scene);
     drawLines(lines, scene);
     let animate = function () {
         renderer.render(scene, camera);
     };
+
     animate();
 
     return (

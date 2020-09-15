@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useState} from 'react';
+import React, {ChangeEvent, useEffect, useState} from 'react';
 import {useDispatch, useSelector, useStore} from 'react-redux';
 import {
     changeHeightOfModel,
@@ -13,6 +13,7 @@ import {generateSection} from "../service/SectionService";
 import {pressGenerateButton} from "../reducer/generateButtonReducer";
 import GraphicsComponent from "./GraphicsComponent";
 import TableComponent from "./TableComponent";
+import PipeTableComponent from "./PipeTableComponent";
 import {RootState} from "../store/store";
 
 function FormComponent() {
@@ -123,6 +124,7 @@ function FormComponent() {
                 </button>
             </form>
             {generateButton && <TableComponent/>}
+            {generateButton && <PipeTableComponent/>}
             {generateButton && <GraphicsComponent/>}
         </div>
     )

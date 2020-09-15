@@ -9,11 +9,11 @@ export interface FormState {
 }
 
 const initialState: FormState = {
-    numberOfLayers: null,
-    numberOfPortals: null,
-    lengthOfModel: null,
-    heightOfModel: null,
-    widthOfModel: null,
+    numberOfLayers: 2,
+    numberOfPortals: 2,
+    lengthOfModel: 20,
+    heightOfModel: 20,
+    widthOfModel: 20,
 };
 
 export const ACTION_CHANGE_NUMBER_OF_LAYERS = 'ACTION_CHANGE_NUMBER_OF_LAYERS';
