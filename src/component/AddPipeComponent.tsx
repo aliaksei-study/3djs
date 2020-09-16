@@ -1,4 +1,4 @@
-import React, {ChangeEvent} from 'react';
+import React, {ChangeEvent, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {changeAddPipeShowedValue} from "../reducer/modalReducer";
 import {Button, Col, Form, Modal} from "react-bootstrap";
@@ -8,15 +8,45 @@ import {
     changeFirstBeamCoordinateX,
     changeFirstBeamCoordinateY,
     changeFirstBeamCoordinateZ,
-    changeFirstBeamId, changeNextPipeId, changeOuterDiameter,
+    changeFirstBeamId,
+    changeNextPipeId,
+    changeOuterDiameter,
     changeSecondBeamCoordinateX,
     changeSecondBeamCoordinateY,
     changeSecondBeamCoordinateZ,
-    changeSecondBeamId, changeThickness
+    changeSecondBeamId,
+    changeThickness
 } from "../reducer/pipeModalFormReducer";
+import {MapEntryType} from "./AddLineComponent";
+import {Line, RandomLine} from "../reducer/tableReducer";
+
+function isRandomLine(lineOrRandomLine: Line | RandomLine): lineOrRandomLine is RandomLine {
+    return (lineOrRandomLine as RandomLine).firstLineId !== undefined;
+}
+
+function createMapEntryType<T extends Line | RandomLine>(t: T, i: number): MapEntryType {
+    if(isRandomLine(t)) {
+        return {key:"R - " + i, value:t.id};
+    } else {
+        return {key:"L - " + i, value:t.id};
+    }
+}
+
+function getHorizontalLinesParallelToRequiredCoordinate<T extends Line | RandomLine>(lines: Array<T>, coordinate: string): MapEntryType[] {
+    let mapLines = Array<MapEntryType>();
+    for(let i = 0; i < lines.length; i++) {
+        if(coordinate.includes("x") && (lines[i].points[0].z !== lines[i].points[1].z) && (lines[i].points[0].x === lines[i].points[1].x)) {
+            mapLines.push(createMapEntryType<T>(lines[i], i));
+        } else if(coordinate.includes("z") && (lines[i].points[0].x !== lines[i].points[1].x) && (lines[i].points[0].z === lines[i].points[1].z)) {
+            mapLines.push(createMapEntryType<T>(lines[i], i));
+        }
+    }
+    return mapLines;
+}
 
 function AddPipeComponent() {
     const dispatch = useDispatch();
+    const [selectLines, setSelectLines] = useState<Array<MapEntryType>>([]);
     const isShowed = useSelector((state: RootState) => state.modal.isAddPipeModalShowed);
     const horizontalPortalLines = useSelector((state: RootState) => state.table.portals.flatMap(portal => portal.portalLines)
         .filter(portalLine => portalLine.points[0].y === portalLine.points[1].y));
@@ -24,6 +54,22 @@ function AddPipeComponent() {
         .filter(sectionLine => sectionLine.points[0].y === sectionLine.points[1].y));
     const horizontalRandomLines = useSelector((state: RootState) => state.table.lines).filter(randomLine =>
         randomLine.points[0].y === randomLine.points[1].y);
+    let linesMap: Array<MapEntryType>;
+
+    function saveIdsToMapWithDirection(direction:string) {
+        linesMap = [];
+        if(direction.includes("+x") || direction.includes("-x")) {
+            linesMap.push.apply(linesMap, getHorizontalLinesParallelToRequiredCoordinate(horizontalRandomLines, "x"));
+            linesMap.push.apply(linesMap, getHorizontalLinesParallelToRequiredCoordinate(horizontalSectionLines, "x"));
+            linesMap.push.apply(linesMap, getHorizontalLinesParallelToRequiredCoordinate(horizontalPortalLines, "x"));
+        } else if(direction.includes("+z") || direction.includes("-z")) {
+            linesMap.push.apply(linesMap, getHorizontalLinesParallelToRequiredCoordinate(horizontalRandomLines, "z"));
+            linesMap.push.apply(linesMap, getHorizontalLinesParallelToRequiredCoordinate(horizontalSectionLines, "z"));
+            linesMap.push.apply(linesMap, getHorizontalLinesParallelToRequiredCoordinate(horizontalPortalLines, "z"));
+        }
+        console.log(linesMap);
+        setSelectLines(linesMap);
+    }
 
     let generatePipe = () => {
     };
@@ -40,9 +86,11 @@ function AddPipeComponent() {
                 <Form>
                     <Form.Group controlId="directionSelect">
                         <Form.Label>Direction select</Form.Label>
-                        <Form.Control as="select" onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                            dispatch(changeDirection(event.target.value))
-                        }>
+                        <Form.Control as="select" onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                            saveIdsToMapWithDirection(event.target.value);
+                            dispatch(changeDirection(event.target.value));
+                        }}>
+                            <option>Choose direction</option>
                             <option>+x</option>
                             <option>-x</option>
                             <option>+y</option>
@@ -57,8 +105,12 @@ function AddPipeComponent() {
                         <Form.Control as="select" onChange={(event: ChangeEvent<HTMLInputElement>) =>
                             dispatch(changeFirstBeamId(+event.target.value))
                         }>
-                            <option>1</option>
-                            <option>2</option>
+                            <option>Choose start Beam</option>
+                            {
+                                selectLines.map((item: MapEntryType, i: number) => (
+                                    <option key={i}>{item.key}</option>
+                                ))
+                            }
                         </Form.Control>
                     </Form.Group>
 
@@ -91,8 +143,12 @@ function AddPipeComponent() {
                         <Form.Control as="select" onChange={(event: ChangeEvent<HTMLInputElement>) =>
                             dispatch(changeSecondBeamId(+event.target.value))
                         }>
-                            <option>1</option>
-                            <option>2</option>
+                            <option>Choose end Beam</option>
+                            {
+                                selectLines.map((item: MapEntryType, i: number) => (
+                                    <option key={i}>{item.key}</option>
+                                ))
+                            }
                         </Form.Control>
                     </Form.Group>
 

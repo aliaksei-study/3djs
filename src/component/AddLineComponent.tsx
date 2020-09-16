@@ -7,12 +7,12 @@ import {setDistFromStart, setFirstLineId, setSecondLineId} from "../reducer/addL
 import {generateLine} from "../service/LineService";
 import {addLine, Line, Portal, Section} from "../reducer/tableReducer";
 
-type MapEntryType = {
+export type MapEntryType = {
     key: string,
     value: number
 }
 
-function saveIDsToMap(portalsId: Array<number>, sectionsId: Array<number>, randomLinesIds: Array<number>, map: Array<MapEntryType>) {
+export function saveIDsToMap(portalsId: Array<number>, sectionsId: Array<number>, randomLinesIds: Array<number>, map: Array<MapEntryType>) {
     for (let i = 0; i < portalsId.length; i++) {
         map.push({key: "B - " + i, value: portalsId[i]})
     }
