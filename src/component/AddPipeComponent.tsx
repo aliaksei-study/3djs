@@ -1,5 +1,5 @@
 import React, {ChangeEvent, useEffect, useState} from 'react';
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch, useSelector, useStore} from "react-redux";
 import {changeAddPipeShowedValue} from "../reducer/modalReducer";
 import {Button, Col, Form, Modal} from "react-bootstrap";
 import {RootState} from "../store/store";
@@ -19,9 +19,19 @@ import {
 } from "../reducer/pipeModalFormReducer";
 import {MapEntryType} from "./AddLineComponent";
 import {Line, RandomLine} from "../reducer/tableReducer";
+import {addNewPipe, Beam, Pipe} from "../reducer/PipeModalReducer";
+import {setSecondLineId} from "../reducer/addLineReducer";
 
 function isRandomLine(lineOrRandomLine: Line | RandomLine): lineOrRandomLine is RandomLine {
     return (lineOrRandomLine as RandomLine).firstLineId !== undefined;
+}
+
+function getNotNullValue(value: number | null): number {
+    if(value as number !== null) {
+        return value as number;
+    } else {
+        return 0;
+    }
 }
 
 function createMapEntryType<T extends Line | RandomLine>(t: T, i: number): MapEntryType {
@@ -46,6 +56,7 @@ function getHorizontalLinesParallelToRequiredCoordinate<T extends Line | RandomL
 
 function AddPipeComponent() {
     const dispatch = useDispatch();
+    const store = useStore<RootState>();
     const [selectLines, setSelectLines] = useState<Array<MapEntryType>>([]);
     const isShowed = useSelector((state: RootState) => state.modal.isAddPipeModalShowed);
     const horizontalPortalLines = useSelector((state: RootState) => state.table.portals.flatMap(portal => portal.portalLines)
@@ -54,6 +65,7 @@ function AddPipeComponent() {
         .filter(sectionLine => sectionLine.points[0].y === sectionLine.points[1].y));
     const horizontalRandomLines = useSelector((state: RootState) => state.table.lines).filter(randomLine =>
         randomLine.points[0].y === randomLine.points[1].y);
+    const pipeIds = useSelector((state: RootState) => state.pipeModal.pipes.map(pipe => pipe.id));
     let linesMap: Array<MapEntryType>;
 
     function saveIdsToMapWithDirection(direction:string) {
@@ -72,6 +84,30 @@ function AddPipeComponent() {
     }
 
     let generatePipe = () => {
+        let pipeFormState = store.getState().pipeModalForm;
+        let startBeam: Beam = {
+            lineId: getNotNullValue(pipeFormState.firstBeamId),
+            coordinateX: getNotNullValue(pipeFormState.firstBeamCoordinateX),
+            coordinateY: getNotNullValue(pipeFormState.firstBeamCoordinateY),
+            coordinateZ: getNotNullValue(pipeFormState.firstBeamCoordinateZ),
+        };
+        let endBeam:Beam = {
+            lineId: getNotNullValue(pipeFormState.secondBeamId),
+            coordinateX: getNotNullValue(pipeFormState.secondBeamCoordinateX),
+            coordinateY: getNotNullValue(pipeFormState.secondBeamCoordinateY),
+            coordinateZ: getNotNullValue(pipeFormState.secondBeamCoordinateZ),
+        };
+        let pipe: Pipe = {
+            id: Math.random(),
+            direction: pipeFormState.direction,
+            startBeam: startBeam,
+            endBeam: endBeam,
+            outerDiameter: getNotNullValue(pipeFormState.outerDiameter),
+            thickness: getNotNullValue(pipeFormState.thickness),
+            nextPipeId: pipeFormState.nextPipeId,
+        };
+        console.log(pipe);
+        dispatch(addNewPipe(pipe));
     };
 
     return (
@@ -102,9 +138,14 @@ function AddPipeComponent() {
                     <Form.Label>Start</Form.Label>
                     <Form.Group controlId="startBeamSelect">
                         <Form.Label>Beam select</Form.Label>
-                        <Form.Control as="select" onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                            dispatch(changeFirstBeamId(+event.target.value))
-                        }>
+                        <Form.Control as="select" onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                            let selectedObject = selectLines.find((value: MapEntryType, index: number) => {
+                                return value.key === event.target.value;
+                            });
+                            if (selectedObject !== undefined) {
+                                dispatch(changeFirstBeamId(selectedObject.value));
+                            }
+                        }}>
                             <option>Choose start Beam</option>
                             {
                                 selectLines.map((item: MapEntryType, i: number) => (
@@ -140,9 +181,14 @@ function AddPipeComponent() {
                     <Form.Label>End</Form.Label>
                     <Form.Group controlId="endBeamSelect">
                         <Form.Label>Beam select</Form.Label>
-                        <Form.Control as="select" onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                            dispatch(changeSecondBeamId(+event.target.value))
-                        }>
+                        <Form.Control as="select" onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                            let selectedObject = selectLines.find((value: MapEntryType, index: number) => {
+                                return value.key === event.target.value;
+                            });
+                            if (selectedObject !== undefined) {
+                                dispatch(changeSecondBeamId(selectedObject.value));
+                            }
+                        }}>
                             <option>Choose end Beam</option>
                             {
                                 selectLines.map((item: MapEntryType, i: number) => (
@@ -195,8 +241,12 @@ function AddPipeComponent() {
                             <Form.Control as="select" onChange={(event:ChangeEvent<HTMLInputElement>) =>
                                 dispatch(changeNextPipeId(+event.target.value))
                             }>
-                                <option>1</option>
-                                <option>2</option>
+                                <option>Choose pipe id</option>
+                                {
+                                    pipeIds.map((pipeId: number) => (
+                                        <option key={pipeId}>{pipeId}</option>
+                                    ))
+                                }
                             </Form.Control>
                         </Form.Group>
                     </Form.Row>
