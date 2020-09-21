@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useEffect, useState} from 'react';
+import React, {ChangeEvent, useState} from 'react';
 import {useDispatch, useSelector, useStore} from "react-redux";
 import {changeAddPipeShowedValue} from "../reducer/modalReducer";
 import {Button, Col, Form, Modal} from "react-bootstrap";
@@ -20,13 +20,12 @@ import {
 import {MapEntryType} from "./AddLineComponent";
 import {Line, RandomLine} from "../reducer/tableReducer";
 import {addNewPipe, Beam, Pipe} from "../reducer/PipeModalReducer";
-import {setSecondLineId} from "../reducer/addLineReducer";
 
 function isRandomLine(lineOrRandomLine: Line | RandomLine): lineOrRandomLine is RandomLine {
     return (lineOrRandomLine as RandomLine).firstLineId !== undefined;
 }
 
-function getNotNullValue(value: number | null): number {
+export function getNotNullValue(value: number | null): number {
     if(value as number !== null) {
         return value as number;
     } else {
@@ -105,8 +104,8 @@ function AddPipeComponent() {
             outerDiameter: getNotNullValue(pipeFormState.outerDiameter),
             thickness: getNotNullValue(pipeFormState.thickness),
             nextPipeId: pipeFormState.nextPipeId,
+            optionPipeMap: selectLines,
         };
-        console.log(pipe);
         dispatch(addNewPipe(pipe));
     };
 

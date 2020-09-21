@@ -3,7 +3,16 @@ import {changeAddPipeShowedValue} from "../reducer/modalReducer";
 import {useDispatch, useSelector} from "react-redux";
 import AddPipeComponent from "./AddPipeComponent";
 import {RootState} from "../store/store";
-import {deletePipes, Pipe} from "../reducer/PipeModalReducer";
+import {
+    changeBeamCoordinateX,
+    changeBeamCoordinateY,
+    changeBeamCoordinateZ, changeOuterDiameter, changeThickness,
+    deletePipes,
+    Pipe
+} from "../reducer/PipeModalReducer";
+import InputCellComponent from "./InputCellComponent";
+import SelectMapArrayCellComponent from "./SelectMapArrayCellComponent";
+import SelectNumberCellComponent from "./SelectNumberCellComponent";
 
 function PipeTableComponent() {
     const dispatch = useDispatch();
@@ -59,17 +68,17 @@ function PipeTableComponent() {
                                 }
                             }} /></td>
                             <td>{pipe.direction}</td>
-                            <td>{pipe.startBeam.lineId}</td>
-                            <td>{pipe.startBeam.coordinateX}</td>
-                            <td>{pipe.startBeam.coordinateY}</td>
-                            <td>{pipe.startBeam.coordinateZ}</td>
-                            <td>{pipe.endBeam.lineId}</td>
-                            <td>{pipe.endBeam.coordinateX}</td>
-                            <td>{pipe.endBeam.coordinateY}</td>
-                            <td>{pipe.endBeam.coordinateZ}</td>
-                            <td>{pipe.outerDiameter}</td>
-                            <td>{pipe.thickness}</td>
-                            <td>{pipe?.nextPipeId}</td>
+                            <SelectMapArrayCellComponent selectedValue={pipe.startBeam.lineId} values={pipe.optionPipeMap} onChange={(newLineId: number) => console.log()}/>
+                            <InputCellComponent value={pipe.startBeam.coordinateX} onChange={(newCoordinateX: number) => dispatch(changeBeamCoordinateX(pipe.id, pipe.startBeam.lineId, newCoordinateX))} />
+                            <InputCellComponent value={pipe.startBeam.coordinateY} onChange={(newCoordinateY: number) => dispatch(changeBeamCoordinateY(pipe.id, pipe.startBeam.lineId, newCoordinateY))} />
+                            <InputCellComponent value={pipe.startBeam.coordinateZ} onChange={(newCoordinateZ: number) => dispatch(changeBeamCoordinateZ(pipe.id, pipe.startBeam.lineId, newCoordinateZ))} />
+                            <SelectMapArrayCellComponent selectedValue={pipe.endBeam.lineId} values={pipe.optionPipeMap} onChange={(newLineId: number) => console.log()}/>
+                            <InputCellComponent value={pipe.endBeam.coordinateX} onChange={(newCoordinateX: number) => dispatch(changeBeamCoordinateX(pipe.id, pipe.endBeam.lineId, newCoordinateX))} />
+                            <InputCellComponent value={pipe.endBeam.coordinateY} onChange={(newCoordinateY: number) => dispatch(changeBeamCoordinateY(pipe.id, pipe.endBeam.lineId, newCoordinateY))} />
+                            <InputCellComponent value={pipe.endBeam.coordinateZ} onChange={(newCoordinateZ: number) => dispatch(changeBeamCoordinateZ(pipe.id, pipe.endBeam.lineId, newCoordinateZ))} />
+                            <InputCellComponent value={pipe.outerDiameter} onChange={(newOuterDiameter: number) => dispatch(changeOuterDiameter(pipe.id, newOuterDiameter))} />
+                            <InputCellComponent value={pipe.thickness} onChange={(newThickness: number) => dispatch(changeThickness(pipe.id, newThickness))} />
+                            <SelectNumberCellComponent values={pipes.map((pipe: Pipe) => pipe.id)} selectedValue={pipe?.nextPipeId} onChange={(newNextPipeId: number | null) => console.log()} />
                         </tr>
                     ))
                 }
