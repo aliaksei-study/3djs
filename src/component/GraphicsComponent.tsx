@@ -4,7 +4,7 @@ import {AxesHelper, Mesh, Scene} from "three";
 import {useSelector, useStore} from "react-redux";
 import {Line, Portal, RandomLine, removePortal, Section} from "../reducer/tableReducer";
 import {RootState} from "../store/store";
-import {Pipe} from "../reducer/PipeModalReducer";
+import {Beam, Pipe} from "../reducer/PipeModalReducer";
 import {OrbitControls} from "three/examples/jsm/controls/OrbitControls";
 
 function drawPortals(portals: Array<Portal>, scene: Scene) {
@@ -64,26 +64,81 @@ function drawPipes(pipes: Array<Pipe>, scene: Scene, horizontalPortalLines: Line
             endBeam = horizontalRandomLines.find(line => line.id === pipe.endBeam.lineId);
         }
         if(startBeam !== undefined && endBeam !== undefined) {
-            let arcShape = new THREE.Shape();
-            arcShape.absarc(0, startBeam.points[0].y, pipe.thickness, 0, Math.PI * 2, false);
-            let holePath = new THREE.Path();
-            holePath.absarc(0, startBeam.points[0].y, pipe.outerDiameter, 0, Math.PI * 2, true);
-            arcShape.holes.push(holePath);
-            let mesh = new Mesh(new THREE.ExtrudeGeometry( arcShape, {
-                steps : 1,
-                bevelEnabled: false,
-                curveSegments: 32,
-                depth: endBeam.points[0].x - startBeam.points[0].x,
-            }));
-            mesh.position.setY(pipe.startBeam.coordinateY);
-            mesh.position.setX(-pipe.startBeam.coordinateZ);
-            mesh.position.setZ(-pipe.startBeam.coordinateX);
-            mesh.rotation.x += 0.7;
-            mesh.rotation.y += 0.7;
-            mesh.rotateY(Math.PI / 2);
-            scene.add(mesh);
+            switch(pipe.direction) {
+                case "+x": {
+                    let mesh: Mesh = (startBeam.points[0].x > endBeam.points[0].x) ?
+                        drawPipeMesh(pipe, endBeam.points[0].z, endBeam.points[0].y, endBeam.points[0].x - startBeam.points[0].x) :
+                        drawPipeMesh(pipe, startBeam.points[0].z, startBeam.points[0].y, endBeam.points[0].x - startBeam.points[0].x);
+                    mesh.rotateY(Math.PI / 2);
+                    scene.add(mesh);
+                    break;
+                }
+                case "-x": {
+                    let mesh: Mesh = (startBeam.points[0].x > endBeam.points[0].x) ?
+                        drawPipeMesh(pipe, startBeam.points[0].z, startBeam.points[0].y, startBeam.points[0].x - endBeam.points[0].x) :
+                        drawPipeMesh(pipe, endBeam.points[0].z, endBeam.points[0].y, endBeam.points[0].x - startBeam.points[0].x);
+                    mesh.rotateY(Math.PI / 2);
+                    scene.add(mesh);
+                    break;
+                }
+                case "+y": {
+                    // let mesh: Mesh = (startBeam.points[0].y > endBeam.points[0].y) ?
+                    //     drawPipeMesh(pipe, endBeam.points[0].z, endBeam.points[0].y, -(endBeam.points[0].y - startBeam.points[0].y)) :
+                    //     drawPipeMesh(pipe, startBeam.points[0].z, startBeam.points[0].y, -(endBeam.points[0].y - startBeam.points[0].y));
+                    // mesh.rotateX(Math.PI / 2);
+                    // scene.add(mesh);
+                    let mesh: Mesh = drawPipeMesh(pipe, 0, 0, endBeam.points[0].y - startBeam.points[0].y);
+                    mesh.rotation.x += 0.7;
+                    mesh.rotation.y += 0.7;
+                    mesh.position.setY(0);
+                    mesh.position.setX(10);
+                    mesh.position.setZ(0);
+                    mesh.rotateX(Math.PI/2);
+                    scene.add(mesh);
+                    break;
+                }
+                case "-y": {
+                    let mesh: Mesh = (startBeam.points[0].y > endBeam.points[0].y) ?
+                        drawPipeMesh(pipe, startBeam.points[0].z, startBeam.points[0].y, startBeam.points[0].y - endBeam.points[0].y) :
+                        drawPipeMesh(pipe, endBeam.points[0].z, endBeam.points[0].y, endBeam.points[0].y - startBeam.points[0].y);
+                    mesh.rotateX(Math.PI / 2);
+                    scene.add(mesh);
+                    break;
+                }
+                case "+z": {
+                    let mesh: Mesh = (startBeam.points[0].z > endBeam.points[0].z) ?
+                        drawPipeMesh(pipe, endBeam.points[0].z, endBeam.points[0].y, endBeam.points[0].z - startBeam.points[0].z) :
+                        drawPipeMesh(pipe, startBeam.points[0].z, startBeam.points[0].y, endBeam.points[0].z - startBeam.points[0].z);
+                    mesh.rotateZ(Math.PI / 2);
+                    scene.add(mesh);
+                    break;
+                }
+                case "-z": {
+                    let mesh: Mesh = (startBeam.points[0].z > endBeam.points[0].z) ?
+                        drawPipeMesh(pipe, startBeam.points[0].z, startBeam.points[0].y, startBeam.points[0].z - endBeam.points[0].z) :
+                        drawPipeMesh(pipe, endBeam.points[0].z, endBeam.points[0].y, endBeam.points[0].z - startBeam.points[0].z);
+                    mesh.rotateZ(Math.PI / 2);
+                    scene.add(mesh);
+                    break;
+                }
+            }
         }
     })
+}
+
+function drawPipeMesh(pipe: Pipe, shapeXCoordinate: number, shapeYCoordinate: number, meshDepth: number): Mesh {
+    let arcShape = new THREE.Shape();
+    arcShape.absarc(shapeXCoordinate, shapeYCoordinate, pipe.thickness, 0, Math.PI * 2, false);
+    let holePath = new THREE.Path();
+    holePath.absarc(shapeXCoordinate, shapeYCoordinate, pipe.outerDiameter, 0, Math.PI * 2, true);
+    arcShape.holes.push(holePath);
+    let mesh = new Mesh(new THREE.ExtrudeGeometry( arcShape, {
+        steps : 1,
+        bevelEnabled: false,
+        curveSegments: 32,
+        depth: meshDepth,
+    }));
+    return mesh;
 }
 
 function GraphicsComponent() {

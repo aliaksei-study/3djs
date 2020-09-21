@@ -48,6 +48,8 @@ function getHorizontalLinesParallelToRequiredCoordinate<T extends Line | RandomL
             mapLines.push(createMapEntryType<T>(lines[i], i));
         } else if(coordinate.includes("z") && (lines[i].points[0].x !== lines[i].points[1].x) && (lines[i].points[0].z === lines[i].points[1].z)) {
             mapLines.push(createMapEntryType<T>(lines[i], i));
+        } else if(coordinate.includes("y") && (lines[i].points[0].y === lines[i].points[1].y)) {
+            mapLines.push(createMapEntryType<T>(lines[i], i));
         }
     }
     return mapLines;
@@ -77,8 +79,11 @@ function AddPipeComponent() {
             linesMap.push.apply(linesMap, getHorizontalLinesParallelToRequiredCoordinate(horizontalRandomLines, "z"));
             linesMap.push.apply(linesMap, getHorizontalLinesParallelToRequiredCoordinate(horizontalSectionLines, "z"));
             linesMap.push.apply(linesMap, getHorizontalLinesParallelToRequiredCoordinate(horizontalPortalLines, "z"));
+        } else if(direction.includes("+y") || direction.includes("-y")) {
+            linesMap.push.apply(linesMap, getHorizontalLinesParallelToRequiredCoordinate(horizontalRandomLines, "y"));
+            linesMap.push.apply(linesMap, getHorizontalLinesParallelToRequiredCoordinate(horizontalSectionLines, "y"));
+            linesMap.push.apply(linesMap, getHorizontalLinesParallelToRequiredCoordinate(horizontalPortalLines, "y"));
         }
-        console.log(linesMap);
         setSelectLines(linesMap);
     }
 
