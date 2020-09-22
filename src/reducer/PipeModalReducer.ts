@@ -40,7 +40,7 @@ export const ACTION_CHANGE_BEAM_COORDINATE_Z = 'ACTION_CHANGE_BEAM_COORDINATE_Z'
 export const ACTION_CHANGE_OUTER_DIAMETER = 'ACTION_CHANGE_OUTER_DIAMETER';
 export const ACTION_CHANGE_THICKNESS = 'ACTION_CHANGE_THICKNESS';
 export const ACTION_CHANGE_NEXT_PIPE_ID = 'ACTION_CHANGE_NEXT_PIPE_ID';
-export const ACTION_CHANGE_BEAM = 'ACTION_CHANGE_BEAM';
+export const ACTION_CHANGE_BEAM_ID = 'ACTION_CHANGE_BEAM_ID';
 
 export const addNewPipe = (newPipe: Pipe): PipeActionTypes  => {
     return {
@@ -109,6 +109,17 @@ export const changeThickness = (pipeId: number, thickness: number): PipeActionTy
     }
 };
 
+export const changeBeamId = (pipeId: number, newBeamId: number, isStartBeam: boolean): PipeActionTypes => {
+    return {
+        type: ACTION_CHANGE_BEAM_ID,
+        payload: {
+            pipeId: pipeId,
+            newBeamId: newBeamId,
+            isStartBeam: isStartBeam
+        }
+    }
+};
+
 export const changeNextPipeId = (pipeId: number, nextPipeId: number): PipeActionTypes => {
     return {
         type: ACTION_CHANGE_NEXT_PIPE_ID,
@@ -157,6 +168,18 @@ export const pipeModalReducer = (state: PipeState = initialState, action: PipeAc
             let changedPipe = newPipeArray.find(pipe => pipe.id === action.payload.pipeId);
             if(changedPipe !== undefined) {
                 changedPipe.nextPipeId = action.payload.nextPipeId;
+            }
+            return {...state, pipes: newPipeArray}
+        }
+        case ACTION_CHANGE_BEAM_ID: {
+            let newPipeArray: Array<Pipe> = Array.from(state.pipes);
+            let changedPipe = newPipeArray.find(pipe => pipe.id === action.payload.pipeId);
+            if(changedPipe !== undefined) {
+                if(action.payload.isStartBeam) {
+                    changedPipe.startBeam.lineId = action.payload.newBeamId;
+                } else {
+                    changedPipe.endBeam.lineId = action.payload.newBeamId
+                }
             }
             return {...state, pipes: newPipeArray}
         }

@@ -2,7 +2,7 @@ import {
     ACTION_ADD_NEW_PIPE,
     ACTION_CHANGE_BEAM_COORDINATE_X,
     ACTION_CHANGE_BEAM_COORDINATE_Y,
-    ACTION_CHANGE_BEAM_COORDINATE_Z, ACTION_CHANGE_NEXT_PIPE_ID,
+    ACTION_CHANGE_BEAM_COORDINATE_Z, ACTION_CHANGE_BEAM_ID, ACTION_CHANGE_NEXT_PIPE_ID,
     ACTION_CHANGE_OUTER_DIAMETER, ACTION_CHANGE_THICKNESS,
     ACTION_DELETE_SELECTED_PIPES,
     Pipe
@@ -70,5 +70,14 @@ export type ChangeNextPipeIdType = {
     }
 }
 
+export type ChangeBeamIdType = {
+    type: typeof ACTION_CHANGE_BEAM_ID,
+    payload: {
+        pipeId: number,
+        newBeamId: number,
+        isStartBeam: boolean
+    }
+}
+
 export type PipeActionTypes = AddNewPipeType | DeleteSelectedPipesType | ChangeBeamCoordinateXType | ChangeBeamCoordinateYType |
-    ChangeBeamCoordinateZType | ChangeOuterDiameterType | ChangeThicknessType | ChangeNextPipeIdType;
+    ChangeBeamCoordinateZType | ChangeOuterDiameterType | ChangeThicknessType | ChangeNextPipeIdType | ChangeBeamIdType;
