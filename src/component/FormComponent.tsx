@@ -15,6 +15,7 @@ import GraphicsComponent from "./GraphicsComponent";
 import TableComponent from "./TableComponent";
 import PipeTableComponent from "./PipeTableComponent";
 import {RootState} from "../store/store";
+import {FormGroup, InputGroup} from "@blueprintjs/core";
 
 function FormComponent() {
     const store = useStore<RootState, any>();
@@ -114,6 +115,14 @@ function FormComponent() {
                             }}
                         />
                     </div>
+                </div>
+                <div className="form-col">
+                    <FormGroup>
+                        <InputGroup type="number" placeholder="NumberOfLayers"/>
+                    </FormGroup>
+                    <FormGroup>
+                        <InputGroup type="number" placeholder="NumberOfLayers"/>
+                    </FormGroup>
                 </div>
                 <button type="button"
                         className="btn btn-outline-success mt-3 mx-auto d-block"
