@@ -117,11 +117,14 @@ function FormComponent() {
                     </div>
                 </div>
                 <div className="form-col">
-                    <FormGroup>
-                        <InputGroup type="number" placeholder="NumberOfLayers"/>
+                    <FormGroup className="form-group-col">
+                        <InputGroup type="number" large={true} min={1} className="form-input-spacing" placeholder="NumberOfLayers"/>
                     </FormGroup>
-                    <FormGroup>
-                        <InputGroup type="number" placeholder="NumberOfLayers"/>
+                    <FormGroup className="form-group-col">
+                        <InputGroup type="number" large={true} min={1} className="form-input-spacing" placeholder="NumberOfLayers"/>
+                    </FormGroup>
+                    <FormGroup className="form-group-col">
+                        <InputGroup type="number" large={true} min={1} className="form-input-spacing" placeholder="NumberOfLayers"/>
                     </FormGroup>
                 </div>
                 <button type="button"
@@ -132,7 +135,6 @@ function FormComponent() {
                         }>Generate
                 </button>
             </form>
-            {generateButton && <TableComponent/>}
             {generateButton && <PipeTableComponent/>}
             {generateButton && <GraphicsComponent/>}
         </div>

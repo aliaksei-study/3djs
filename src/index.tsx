@@ -8,10 +8,12 @@ import '@blueprintjs/table/lib/css/table.css'
 import {Provider} from 'react-redux';
 import {store} from "./store/store";
 import FormComponent from "./component/FormComponent";
+import TableComponent from "./component/TableComponent";
 
 ReactDOM.render(
   <Provider store = {store}>
     <FormComponent />
+    <TableComponent />
   </Provider>,
   document.getElementById('root')
 );
