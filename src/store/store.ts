@@ -1,4 +1,4 @@
-import {combineReducers, createStore} from 'redux';
+import {applyMiddleware, combineReducers, createStore} from 'redux';
 import {formReducer, FormState} from "../reducer/formReducer";
 import {tableReducer, TableState} from "../reducer/tableReducer";
 import {generateButtonReducer, GenerateButtonState} from "../reducer/generateButtonReducer";
@@ -6,6 +6,7 @@ import {addLineReducer, AddLineState} from "../reducer/addLineReducer";
 import {modalReducer, ModalState} from "../reducer/modalReducer";
 import {pipeModalReducer, PipeState} from "../reducer/PipeModalReducer";
 import {PipeFormState, pipeModalFormReducer} from "../reducer/pipeModalFormReducer";
+import thunkMiddleware from 'redux-thunk'
 
 export const rootReducer = combineReducers({
     form: formReducer,
@@ -27,4 +28,4 @@ export interface RootState {
     pipeModalForm: PipeFormState
 }
 
-export const store = createStore(rootReducer);
+export const store = createStore(rootReducer, applyMiddleware(thunkMiddleware));

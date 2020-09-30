@@ -4,11 +4,11 @@ import {generatePortal, regeneratePortal} from "../service/PortalService";
 import {
     addPortal,
     addSection,
-    generatePortals, generateSections, Portal,
+    generatePortals, generateSections, getModel, Portal,
     removeLine,
     removeModel,
     removeRandomLine,
-    removeSection, Section, TableState
+    removeSection, Section, sendModel, TableState
 } from "../reducer/tableReducer";
 import {generateSection, regenerateSections} from "../service/SectionService";
 import {RootState} from "../store/store";
@@ -48,22 +48,6 @@ import {Button} from "@blueprintjs/core";
 //         numberOfPortals: state.form.numberOfPortals
 //     }
 // };
-
-const instance = axios.create({
-    baseURL: "http://localhost:8080/"
-});
-
-const sendData = (tableState: TableState) => {
-    return instance.post('states', tableState);
-};
-
-const getData = () => {
-    let tableState: TableState;
-    instance.get<TableState>('states').then((res) => {
-        tableState = res.data;
-        console.log(tableState);
-    });
-};
 
 function TableComponent() {
     const store = useStore<RootState, any>();
@@ -152,8 +136,8 @@ function TableComponent() {
             }}>Add Line
             </button>
             <SplitModelComponent/>
-            <Button icon="export" text="Send" large={true}/>
-            <Button icon="import" text="Get from the server" large={true} onClick={() => getData()}/>
+            <Button icon="export" text="Send" large={true} onClick={() => dispatch(sendModel(store.getState().table))}/>
+            <Button icon="import" text="Get from the server" large={true} onClick={() => dispatch(getModel())}/>
             <table className="table table-bordered">
                 <thead>
                 <tr>

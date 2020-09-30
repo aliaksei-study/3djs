@@ -1,6 +1,9 @@
 import * as THREE from "three";
 import {ACTION_GENERATE_PORTALS, ACTION_GENERATE_SECTIONS} from "./formReducer";
 import {TableActionTypes} from "../types/TableActionTypes";
+import {modelAPI} from "../api/modelAPI";
+import {Dispatch} from "redux";
+import {ThunkAction} from "redux-thunk";
 
 export interface TableState {
     sections: Array<Section>,
@@ -159,5 +162,21 @@ export const tableReducer = (state: TableState = initialState, action: TableActi
         }
         default:
             return state;
+    }
+};
+
+// Promise<void> because we work with request, otherwise should write thunk return value
+// instead of thunkAction you can type @code return async (dispatch: Dispatch<TableActionTypes>
+export const getModel = (): ThunkAction<Promise<void>, TableState, unknown, TableActionTypes> => {
+    return async (dispatch, getState) => {
+        let requestData = await modelAPI.getModel();
+        console.log(requestData.data);
+    }
+};
+
+export const sendModel = (tableState: TableState): ThunkAction<Promise<void>, TableState, unknown, TableActionTypes> => {
+    return async (dispatch, getState) => {
+        let sendData = await modelAPI.sendModel(tableState);
+        console.log(sendData.status);
     }
 };
