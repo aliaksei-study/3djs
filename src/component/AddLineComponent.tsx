@@ -5,7 +5,7 @@ import {RootState} from "../store/store";
 import {changeAddLineModalShowedValue} from "../reducer/modalReducer";
 import {setDistFromStart, setFirstLineId, setSecondLineId} from "../reducer/addLineReducer";
 import {generateLine} from "../service/LineService";
-import {addLine, Line, Portal, Section} from "../reducer/tableReducer";
+import {actions, Line, Portal, Section} from "../reducer/tableReducer";
 
 export type MapEntryType = {
     key: string,
@@ -62,7 +62,7 @@ function AddLineComponent() {
                 }
             });
             let generatedLine = generateLine(lines, distFromStart, firstLineId, secondLineId);
-            dispatch(addLine(generatedLine));
+            dispatch(actions.addLine(generatedLine));
         }
     }
 

@@ -1,28 +1,13 @@
 import React from 'react';
-import {connect, useDispatch, useSelector, useStore} from "react-redux";
+import {useDispatch, useSelector, useStore} from "react-redux";
 import {generatePortal, regeneratePortal} from "../service/PortalService";
-import {
-    addPortal,
-    addSection,
-    generatePortals, generateSections, getModel, Portal,
-    removeLine,
-    removeModel,
-    removeRandomLine,
-    removeSection, Section, sendModel, TableState
-} from "../reducer/tableReducer";
+import {actions, getModel, Portal, sendModel} from "../reducer/tableReducer";
 import {generateSection, regenerateSections} from "../service/SectionService";
 import {RootState} from "../store/store";
-import {
-    changeAddLineModalShowedValue,
-} from "../reducer/modalReducer";
+import {changeAddLineModalShowedValue,} from "../reducer/modalReducer";
 import AddLineComponent from "./AddLineComponent";
 import SplitModelComponent from "./SplitModelComponent";
 import InputCellComponent from "./InputCellComponent";
-import {TableActionTypes} from "../types/TableActionTypes";
-import {bindActionCreators} from "redux";
-import {ACTION_GENERATE_SECTIONS} from "../reducer/formReducer";
-import axios from "axios"
-import {AxiosResponse} from "axios"
 import {Button} from "@blueprintjs/core";
 
 // type StateProps = {
@@ -66,12 +51,12 @@ function TableComponent() {
 
     function handleChangeTableParameter(portal: Portal, newDistanceFromStart?: number, newHeightOfPortal?: number,
                                         newNumberOfPortalLayers?: number) {
-        dispatch(generatePortals(regeneratePortal(portals, portal.id,
+        dispatch(actions.generatePortals(regeneratePortal(portals, portal.id,
             newDistanceFromStart === undefined ? portal.distFromStart : newDistanceFromStart,
             newHeightOfPortal === undefined ? portal.heightOfPortal : newHeightOfPortal,
             newNumberOfPortalLayers === undefined ? portal.numberOfPortalLayers : newNumberOfPortalLayers,
             widthOfModel === null ? 0 : widthOfModel)));
-        dispatch(generateSections(regenerateSections(sections, portal.id, store.getState().table.portals, stepLayer,
+        dispatch(actions.generateSections(regenerateSections(sections, portal.id, store.getState().table.portals, stepLayer,
             widthOfModel === null ? 0 : widthOfModel, numberOfLayers === null ? 0 : numberOfLayers)));
     }
 
@@ -83,7 +68,7 @@ function TableComponent() {
         if (portal !== undefined && heightOfModel !== null && widthOfModel !== null && numberOfPortals !== null) {
             generatedPortal = generatePortal(portal.step, portal.distFromStart + portal.step,
                 heightOfModel, widthOfModel, numberOfPortals);
-            dispatch(addPortal(generatedPortal));
+            dispatch(actions.addPortal(generatedPortal));
         }
         for (let numberOfSection = 0; numberOfSection < (numberOfLayers === null ? 0 : numberOfLayers);
              numberOfSection++) {
@@ -94,7 +79,7 @@ function TableComponent() {
             }
             if (generatedSection !== undefined) {
                 stepLayer += stepLayer;
-                dispatch(addSection(generatedSection));
+                dispatch(actions.addSection(generatedSection));
             }
         }
     }
@@ -102,24 +87,24 @@ function TableComponent() {
     function removeLineFromModel(portal: Portal) {
         let removedLineId = portal.id;
         if (removedLineId === portals[0].id) {
-            dispatch(removeModel());
+            dispatch(actions.removeModel());
         } else {
             portal.portalLines.forEach(line => randomLines.forEach(randomLine => {
                 if (randomLine.firstLineId === line.id) {
-                    dispatch(removeRandomLine(randomLine.firstLineId));
+                    dispatch(actions.removeRandomLine(randomLine.firstLineId));
                 } else if (randomLine.secondLineId === line.id) {
-                    dispatch(removeRandomLine(randomLine.secondLineId));
+                    dispatch(actions.removeRandomLine(randomLine.secondLineId));
                 }
             }));
             if (removedLineId === portals[portals.length - 1].id) {
                 sections.forEach(section => {
                     if (section.firstPortalId === removedLineId || section.secondPortalId === removedLineId) {
-                        dispatch(removeSection(section.id));
+                        dispatch(actions.removeSection(section.id));
                     }
                 })
             }
         }
-        dispatch(removeLine(removedLineId));
+        dispatch(actions.removeLine(removedLineId));
     }
 
     return (

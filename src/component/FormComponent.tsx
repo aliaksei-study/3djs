@@ -7,7 +7,7 @@ import {
     changeNumberOfPortals,
     changeWidthOfModel,
 } from "../reducer/formReducer";
-import {generatePortals, generateSections, Portal, Section} from "../reducer/tableReducer";
+import {actions, Portal, Section} from "../reducer/tableReducer";
 import {generatePortal} from "../service/PortalService";
 import {generateSection} from "../service/SectionService";
 import {pressGenerateButton} from "../reducer/generateButtonReducer";
@@ -39,7 +39,7 @@ function FormComponent() {
                 portals.push(generatePortal(step, distFromStart, heightOfModel, widthOfModel, numberOfLayers));
                 distFromStart += step;
             }
-            dispatch(generatePortals(portals));
+            dispatch(actions.generatePortals(portals));
             let tableState = store.getState().table;
             for (let j = 0; j < numberOfPortals - 1; j++) {
                 for (let i = 0; i < numberOfLayers; i++) {
@@ -48,7 +48,7 @@ function FormComponent() {
                 }
             }
         }
-        dispatch(generateSections(sections));
+        dispatch(actions.generateSections(sections));
         dispatch(pressGenerateButton(true));
     }
 

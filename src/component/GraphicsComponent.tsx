@@ -2,7 +2,7 @@ import React, {useMemo} from 'react';
 import * as THREE from "three";
 import {AxesHelper, Mesh, Scene} from "three";
 import {useSelector, useStore} from "react-redux";
-import {Line, Portal, RandomLine, removePortal, Section} from "../reducer/tableReducer";
+import {actions, Line, Portal, RandomLine, Section} from "../reducer/tableReducer";
 import {RootState} from "../store/store";
 import {Beam, Pipe} from "../reducer/PipeModalReducer";
 import {OrbitControls} from "three/examples/jsm/controls/OrbitControls";
@@ -190,7 +190,7 @@ function GraphicsComponent() {
         return new THREE.Scene();
     }, []);
     if (removedLineId !== null) {
-        store.dispatch(removePortal(removedLineId));
+        store.dispatch(actions.removePortal(removedLineId));
     }
     while (scene.children.length > 0) {
         scene.remove(scene.children[0]);
