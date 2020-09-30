@@ -8,14 +8,9 @@ const instance = axios.create({
 
 export const modelAPI = {
     sendModel(tableState: TableState): Promise<AxiosResponse<TableState>> {
-        return instance.post<TableState>('states', {
-            sections: tableState.sections,
-            portals: tableState.portals,
-            removedLineId: tableState.removedLineId,
-            randomLines: tableState.lines
-        });
+        return instance.post<TableState>('states', tableState);
     },
-    getModel(): Promise<AxiosResponse<TableState>> {
-        return instance.get<TableState, AxiosResponse<TableState>>('states');
+    getModel(): Promise<TableState>{
+        return instance.get<TableState, AxiosResponse<TableState>>('states').then((res) => res.data);
     }
 };

@@ -9,11 +9,15 @@ import {Provider} from 'react-redux';
 import {store} from "./store/store";
 import FormComponent from "./component/FormComponent";
 import TableComponent from "./component/TableComponent";
+import PipeTableComponent from "./component/PipeTableComponent";
+import GraphicsComponent from "./component/GraphicsComponent";
 
 ReactDOM.render(
   <Provider store = {store}>
     <FormComponent />
     <TableComponent />
+    <PipeTableComponent/>
+    <GraphicsComponent/>
   </Provider>,
   document.getElementById('root')
 );

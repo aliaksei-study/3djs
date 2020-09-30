@@ -3,7 +3,7 @@ import {
     ACTION_ADD_PORTAL,
     ACTION_ADD_SECTION,
     ACTION_REMOVE_LINE, ACTION_REMOVE_MODEL,
-    ACTION_REMOVE_PORTALS, ACTION_REMOVE_RANDOM_LINE, ACTION_REMOVE_SECTION_LINE, Line,
+    ACTION_REMOVE_PORTALS, ACTION_REMOVE_RANDOM_LINE, ACTION_REMOVE_SECTION_LINE, ACTION_SET_LOADED_MODEL, Line,
     Portal, RandomLine,
     Section, TableState
 } from "../reducer/tableReducer";
@@ -59,5 +59,10 @@ export type RemoveSectionType = {
     payload: number
 }
 
+export type SetLoadedModelType = {
+    type: typeof ACTION_SET_LOADED_MODEL,
+    payload: TableState
+}
+
 export type TableActionTypes = AddPortalType | AddSectionType | RemoveLineType | RemovePortalType | GeneratePortalsType
-    | GenerateSectionsType | AddLineType | RemoveModelType | RemoveRandomLineType | RemoveSectionType;
+    | GenerateSectionsType | AddLineType | RemoveModelType | RemoveRandomLineType | RemoveSectionType | SetLoadedModelType;

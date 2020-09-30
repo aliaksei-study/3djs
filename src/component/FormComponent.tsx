@@ -135,8 +135,6 @@ function FormComponent() {
                         }>Generate
                 </button>
             </form>
-            {generateButton && <PipeTableComponent/>}
-            {generateButton && <GraphicsComponent/>}
         </div>
     )
 }

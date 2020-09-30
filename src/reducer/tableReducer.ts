@@ -53,6 +53,7 @@ export const ACTION_ADD_LINE = 'ACTION_ADD_LINE';
 export const ACTION_REMOVE_MODEL = 'ACTION_REMOVE_MODEL';
 export const ACTION_REMOVE_RANDOM_LINE = 'ACTION_REMOVE_RANDOM_LINE';
 export const ACTION_REMOVE_SECTION_LINE = 'ACTION_REMOVE_SECTION_LINE';
+export const ACTION_SET_LOADED_MODEL = 'ACTION_SET_LOADED MODEL';
 
 export const addPortal = (newPortal: Portal): TableActionTypes => {
     return {
@@ -124,6 +125,13 @@ export const removeSection = (removedLineId: number): TableActionTypes => {
     }
 };
 
+export const setLoadedModel = (tableState: TableState): TableActionTypes => {
+    return {
+        type: ACTION_SET_LOADED_MODEL,
+        payload: tableState
+    }
+};
+
 export const tableReducer = (state: TableState = initialState, action: TableActionTypes): TableState => {
     switch (action.type) {
         case ACTION_ADD_PORTAL: {
@@ -160,6 +168,9 @@ export const tableReducer = (state: TableState = initialState, action: TableActi
         case ACTION_REMOVE_SECTION_LINE: {
             return {...state, sections: [...state.sections.filter(section => section.id !== action.payload)]}
         }
+        case ACTION_SET_LOADED_MODEL: {
+            return action.payload;
+        }
         default:
             return state;
     }
@@ -169,8 +180,9 @@ export const tableReducer = (state: TableState = initialState, action: TableActi
 // instead of thunkAction you can type @code return async (dispatch: Dispatch<TableActionTypes>
 export const getModel = (): ThunkAction<Promise<void>, TableState, unknown, TableActionTypes> => {
     return async (dispatch, getState) => {
-        let requestData = await modelAPI.getModel();
-        console.log(requestData.data);
+        let requestData: TableState = await modelAPI.getModel();
+        console.log(requestData);
+        dispatch(setLoadedModel(requestData));
     }
 };
 
