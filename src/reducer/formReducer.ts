@@ -59,7 +59,7 @@ export const changeWidthOfModel = (newWidthOfModel: number): FormActionTypes => 
     }
 };
 
-export const formReducer = (state: FormState = initialState, action: FormActionTypes): FormState => {
+export const formModelReducer = (state: FormState = initialState, action: FormActionTypes): FormState => {
     switch (action.type) {
         case ACTION_CHANGE_NUMBER_OF_LAYERS: {
             return {...state, numberOfLayers: action.payload}

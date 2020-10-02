@@ -1,30 +1,26 @@
-import React, {ChangeEvent, useEffect, useState} from 'react';
-import {useDispatch, useSelector, useStore} from 'react-redux';
-import {
-    changeHeightOfModel,
-    changeLengthOfModel,
-    changeNumberOfLayers,
-    changeNumberOfPortals,
-    changeWidthOfModel,
-} from "../reducer/formReducer";
+import {useDispatch, useSelector, useStore} from "react-redux";
+import {RootState} from "../store/store";
 import {actions, Portal, Section} from "../reducer/tableReducer";
 import {generatePortal} from "../service/PortalService";
 import {generateSection} from "../service/SectionService";
 import {pressGenerateButton} from "../reducer/generateButtonReducer";
-import GraphicsComponent from "./GraphicsComponent";
-import TableComponent from "./TableComponent";
-import PipeTableComponent from "./PipeTableComponent";
-import {RootState} from "../store/store";
+import React, {ChangeEvent} from "react";
+import {
+    changeHeightOfModel,
+    changeLengthOfModel,
+    changeNumberOfLayers,
+    changeNumberOfPortals, changeWidthOfModel
+} from "../reducer/formReducer";
 import {FormGroup, InputGroup} from "@blueprintjs/core";
 
 function FormComponent() {
     const store = useStore<RootState, any>();
     const generateButton = useSelector((state: RootState) => state.generateButton.isPressed);
-    const numberOfPortals = useSelector((state:RootState) => state.form.numberOfPortals);
-    const heightOfModel = useSelector((state:RootState) => state.form.heightOfModel);
-    const numberOfLayers = useSelector((state:RootState) => state.form.numberOfLayers);
-    const widthOfModel = useSelector((state:RootState) => state.form.widthOfModel);
-    const lengthOfModel = useSelector((state: RootState) => state.form.lengthOfModel);
+    const numberOfPortals = useSelector((state:RootState) => state.modelForm.numberOfPortals);
+    const heightOfModel = useSelector((state:RootState) => state.modelForm.heightOfModel);
+    const numberOfLayers = useSelector((state:RootState) => state.modelForm.numberOfLayers);
+    const widthOfModel = useSelector((state:RootState) => state.modelForm.widthOfModel);
+    const lengthOfModel = useSelector((state: RootState) => state.modelForm.lengthOfModel);
     const dispatch = useDispatch();
 
     function generateModel() {
@@ -139,4 +135,34 @@ function FormComponent() {
     )
 }
 
+// const FormComponent: React.FC<InjectedFormProps<FormState>> = ({handleSubmit, error}) => {
+//     return (
+//         <form onSubmit={handleSubmit}>
+//             <div>
+//                 <label htmlFor="numberOfLayers">NumberOfLayers</label>
+//                 <Field name="numberOfLayers" component="input" type="number"/>
+//             </div>
+//             <div>
+//                 <label htmlFor="numberOfPortals">NumberOfPortals</label>
+//                 <Field name="numberOfPortals" component="input" type="number"/>
+//             </div>
+//             <div>
+//                 <label htmlFor="lengthOfModel">Length of model</label>
+//                 <Field name="lengthOfModel" component="input" type="number"/>
+//             </div>
+//             <div>
+//                 <label htmlFor="heightOfModel">HeightOfModel</label>
+//                 <Field name="HeightOfModel" component="input" type="number"/>
+//             </div>
+//             <div>
+//                 <label htmlFor="widthOfModel">Width of model</label>
+//                 <Field name="widthOfModel" component="input" type="number"/>
+//             </div>
+//             <button type="submit">Submit</button>
+//         </form>
+//     )
+// };
+
 export default FormComponent;
+
+//export default reduxForm<FormState>({form: 'modelForm'})(FormComponent);

@@ -1,5 +1,4 @@
 import {applyMiddleware, combineReducers, createStore} from 'redux';
-import {formReducer, FormState} from "../reducer/formReducer";
 import {tableReducer, TableState} from "../reducer/tableReducer";
 import {generateButtonReducer, GenerateButtonState} from "../reducer/generateButtonReducer";
 import {addLineReducer, AddLineState} from "../reducer/addLineReducer";
@@ -7,9 +6,14 @@ import {modalReducer, ModalState} from "../reducer/modalReducer";
 import {pipeModalReducer, PipeState} from "../reducer/PipeModalReducer";
 import {PipeFormState, pipeModalFormReducer} from "../reducer/pipeModalFormReducer";
 import thunkMiddleware from 'redux-thunk'
+import { reducer as formReducer } from 'redux-form'
+import FormComponent from "../component/FormComponent";
+import {formModelReducer, FormState} from "../reducer/formReducer";
+
 
 export const rootReducer = combineReducers({
-    form: formReducer,
+    //form: formReducer,
+    modelForm: formModelReducer,
     table: tableReducer,
     generateButton: generateButtonReducer,
     addLine: addLineReducer,
@@ -19,7 +23,7 @@ export const rootReducer = combineReducers({
 });
 
 export interface RootState {
-    form: FormState,
+    modelForm: FormState
     table: TableState,
     generateButton: GenerateButtonState,
     addLine: AddLineState,

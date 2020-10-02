@@ -11,6 +11,7 @@ import FormComponent from "./component/FormComponent";
 import TableComponent from "./component/TableComponent";
 import PipeTableComponent from "./component/PipeTableComponent";
 import GraphicsComponent from "./component/GraphicsComponent";
+import {FormState} from "./reducer/formReducer";
 
 ReactDOM.render(
   <Provider store = {store}>

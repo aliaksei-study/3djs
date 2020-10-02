@@ -39,10 +39,10 @@ function TableComponent() {
     const portals = useSelector((state: RootState) => state.table.portals);
     const sections = useSelector((state: RootState) => state.table.sections);
     const randomLines = useSelector((state: RootState) => state.table.lines);
-    const widthOfModel = useSelector((state: RootState) => state.form.widthOfModel);
-    const numberOfLayers = useSelector((state: RootState) => state.form.numberOfLayers);
-    const heightOfModel = useSelector((state: RootState) => state.form.heightOfModel);
-    const numberOfPortals = useSelector((state: RootState) => state.form.numberOfPortals);
+    const widthOfModel = useSelector((state: RootState) => state.modelForm.widthOfModel);
+    const numberOfLayers = useSelector((state: RootState) => state.modelForm.numberOfLayers);
+    const heightOfModel = useSelector((state: RootState) => state.modelForm.heightOfModel);
+    const numberOfPortals = useSelector((state: RootState) => state.modelForm.numberOfPortals);
 
     const dispatch = useDispatch();
 
