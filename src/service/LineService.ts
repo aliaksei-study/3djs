@@ -1,4 +1,4 @@
-import {Line, Portal, RandomLine} from "../reducer/tableReducer";
+import {Line, Portal, RandomLine, Section} from "../reducer/tableReducer";
 import * as THREE from "three";
 
 export function generateLine(lines: Array<Line>, distFromStart: number, firstLineId: number, secondLineId: number): RandomLine {
@@ -17,6 +17,37 @@ export function generateLine(lines: Array<Line>, distFromStart: number, firstLin
     }
     id = Math.random();
     return {id, points, firstLineId, secondLineId};
+}
+
+export function getModelRandomLine(portals: Array<Portal>, sections: Array<Section>, randomLines: Array<RandomLine>,
+                             firstLineId: number, secondLineId: number, distFromStart: number): RandomLine {
+    console.log(portals);
+    console.log(sections);
+    console.log(firstLineId);
+    console.log(secondLineId);
+    let lines: Array<Line> = new Array<Line>();
+    portals.forEach(portal => portal.portalLines.forEach(line => {
+        console.log(line);
+        console.log(typeof line.id);
+        console.log(typeof firstLineId);
+        console.log();
+        console.log(line.id === secondLineId);
+        if (line.id === firstLineId || line.id === secondLineId ) {
+            lines.push(line);
+        }
+    }));
+    sections.forEach(section => section.sectionLines.forEach(line => {
+        if (line.id === firstLineId || line.id === secondLineId) {
+            lines.push(line);
+        }
+    }));
+    randomLines.forEach(randomLine => {
+        if (randomLine.id === firstLineId || randomLine.id === secondLineId) {
+            lines.push(randomLine);
+        }
+    });
+    let generatedLine =  generateLine(lines, distFromStart, firstLineId, secondLineId);
+    return generatedLine;
 }
 
 export function splitLine(line: Line, generatedLinePoints: Array<THREE.Vector3>): Array<Line> {

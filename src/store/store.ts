@@ -12,7 +12,7 @@ import {formModelReducer, FormState} from "../reducer/formReducer";
 
 
 export const rootReducer = combineReducers({
-    //form: formReducer,
+    form: formReducer,
     modelForm: formModelReducer,
     table: tableReducer,
     generateButton: generateButtonReducer,

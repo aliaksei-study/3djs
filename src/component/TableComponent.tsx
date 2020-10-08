@@ -9,6 +9,7 @@ import AddLineComponent from "./AddLineComponent";
 import SplitModelComponent from "./SplitModelComponent";
 import InputCellComponent from "./InputCellComponent";
 import {Button} from "@blueprintjs/core";
+import {AddLineState} from "../reducer/addLineReducer";
 
 // type StateProps = {
 //     table: TableState,
