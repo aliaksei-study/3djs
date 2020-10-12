@@ -9,7 +9,6 @@ import AddLineComponent from "./AddLineComponent";
 import SplitModelComponent from "./SplitModelComponent";
 import InputCellComponent from "./InputCellComponent";
 import {Button} from "@blueprintjs/core";
-import {AddLineState} from "../reducer/addLineReducer";
 
 // type StateProps = {
 //     table: TableState,
@@ -52,11 +51,13 @@ function TableComponent() {
 
     function handleChangeTableParameter(portal: Portal, newDistanceFromStart?: number, newHeightOfPortal?: number,
                                         newNumberOfPortalLayers?: number) {
+        console.log(portals);
         dispatch(actions.generatePortals(regeneratePortal(portals, portal.id,
             newDistanceFromStart === undefined ? portal.distFromStart : newDistanceFromStart,
             newHeightOfPortal === undefined ? portal.heightOfPortal : newHeightOfPortal,
             newNumberOfPortalLayers === undefined ? portal.numberOfPortalLayers : newNumberOfPortalLayers,
             widthOfModel === null ? 0 : widthOfModel)));
+        console.log(portals);
         dispatch(actions.generateSections(regenerateSections(sections, portal.id, store.getState().table.portals, stepLayer,
             widthOfModel === null ? 0 : widthOfModel, numberOfLayers === null ? 0 : numberOfLayers)));
     }

@@ -21,17 +21,8 @@ export function generateLine(lines: Array<Line>, distFromStart: number, firstLin
 
 export function getModelRandomLine(portals: Array<Portal>, sections: Array<Section>, randomLines: Array<RandomLine>,
                              firstLineId: number, secondLineId: number, distFromStart: number): RandomLine {
-    console.log(portals);
-    console.log(sections);
-    console.log(firstLineId);
-    console.log(secondLineId);
     let lines: Array<Line> = new Array<Line>();
     portals.forEach(portal => portal.portalLines.forEach(line => {
-        console.log(line);
-        console.log(typeof line.id);
-        console.log(typeof firstLineId);
-        console.log();
-        console.log(line.id === secondLineId);
         if (line.id === firstLineId || line.id === secondLineId ) {
             lines.push(line);
         }
@@ -46,8 +37,7 @@ export function getModelRandomLine(portals: Array<Portal>, sections: Array<Secti
             lines.push(randomLine);
         }
     });
-    let generatedLine =  generateLine(lines, distFromStart, firstLineId, secondLineId);
-    return generatedLine;
+    return generateLine(lines, distFromStart, firstLineId, secondLineId);
 }
 
 export function splitLine(line: Line, generatedLinePoints: Array<THREE.Vector3>): Array<Line> {

@@ -1,17 +1,157 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="5a92c7fd-3772-4c3f-9e3a-38c3c6d5679e" name="Default Changelist" comment="" />
+    <list default="true" id="5a92c7fd-3772-4c3f-9e3a-38c3c6d5679e" name="Default Changelist" comment="delete pipe works and choose next pipe">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/component/AddLineComponent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/AddLineComponent.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/component/TableComponent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/TableComponent.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/reducer/addLineReducer.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/LineService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/LineService.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/store.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/store.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/types/AddLineActionTypes.ts" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand />
+    <select />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="TypeScript File" />
+        <option value="TypeScript JSX File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="table-editing" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="hiddenUrls">
+      <set>
+        <option value="https://github.com/aliaksei-study/3djs.git" />
+      </set>
+    </option>
+  </component>
   <component name="ProjectId" id="1g8E5QVMcnVB1xpOvrhAfujumFc" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../quiz" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.standard" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.standard" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.standard" value="" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="nodejs.jest.jest_package" value="$PROJECT_DIR$/node_modules/react-scripts" />
+    <property name="nodejs_interpreter_path" value="node" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="settings.editor.selected.configurable" value="settings.github" />
+    <property name="ts.external.directory.path" value="C:\Users\Admin\IdeaProjects\BSUIR_PROJECT\3djs\node_modules\typescript\lib" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Admin\IdeaProjects\BSUIR_PROJECT\3djs\src\types" />
+      <recent name="C:\Users\Admin\IdeaProjects\BSUIR_PROJECT\3djs\src\reducer" />
+      <recent name="C:\Users\Admin\IdeaProjects\BSUIR_PROJECT\3djs\src\store" />
+      <recent name="C:\Users\Admin\IdeaProjects\BSUIR_PROJECT\3djs\src\component" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Jest.thunk test get model">
+    <configuration name="render" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
+      <node-interpreter value="project" />
+      <node-options value="" />
+      <jest-package value="$PROJECT_DIR$/node_modules/react-scripts" />
+      <working-dir value="$PROJECT_DIR$" />
+      <envs />
+      <scope-kind value="TEST" />
+      <test-file value="$PROJECT_DIR$/src/reducer/tableReducer.test.ts" />
+      <test-names>
+        <test-name value="render" />
+      </test-names>
+      <method v="2" />
+    </configuration>
+    <configuration name="thunk test get model" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
+      <node-interpreter value="project" />
+      <node-options value="" />
+      <jest-package value="$PROJECT_DIR$/node_modules/react-scripts" />
+      <working-dir value="$PROJECT_DIR$" />
+      <envs />
+      <scope-kind value="TEST" />
+      <test-file value="$PROJECT_DIR$/src/reducer/tableReducer.test.ts" />
+      <test-names>
+        <test-name value="thunk test get model" />
+      </test-names>
+      <method v="2" />
+    </configuration>
+    <configuration name="when delete model, array's size should be equal to zero" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
+      <node-interpreter value="project" />
+      <node-options value="" />
+      <jest-package value="$PROJECT_DIR$/node_modules/react-scripts" />
+      <working-dir value="$PROJECT_DIR$" />
+      <envs />
+      <scope-kind value="TEST" />
+      <test-file value="$PROJECT_DIR$/src/reducer/tableReducer.test.ts" />
+      <test-names>
+        <test-name value="when delete model, array's size should be equal to zero" />
+      </test-names>
+      <method v="2" />
+    </configuration>
+    <configuration name="Debug Application" type="JavascriptDebugType" uri="http://localhost:3000">
+      <method v="2" />
+    </configuration>
+    <configuration name="npm start" type="js.build_tools.npm">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="start" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Jest.thunk test get model" />
+        <item itemvalue="Jest.when delete model, array's size should be equal to zero" />
+        <item itemvalue="Jest.render" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -23,7 +163,457 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1597487636077</updated>
+      <workItem from="1597487641746" duration="1561000" />
+      <workItem from="1597591876122" duration="935000" />
+      <workItem from="1597600752386" duration="2026000" />
+      <workItem from="1597670192927" duration="8060000" />
+      <workItem from="1597737973079" duration="5119000" />
+      <workItem from="1597745933670" duration="115000" />
+      <workItem from="1597842957643" duration="2668000" />
+      <workItem from="1597849818405" duration="5458000" />
+      <workItem from="1597855376965" duration="813000" />
+      <workItem from="1597903891122" duration="13023000" />
+      <workItem from="1597989206701" duration="17304000" />
+      <workItem from="1598030631002" duration="2541000" />
+      <workItem from="1598175525692" duration="10014000" />
+      <workItem from="1598248306871" duration="20678000" />
+      <workItem from="1598334977631" duration="19505000" />
+      <workItem from="1598369718991" duration="957000" />
+      <workItem from="1598370966637" duration="84000" />
+      <workItem from="1598371091428" duration="729000" />
+      <workItem from="1598420983836" duration="16281000" />
+      <workItem from="1598452344496" duration="1552000" />
+      <workItem from="1598465322211" duration="351000" />
+      <workItem from="1598508593207" duration="19638000" />
+      <workItem from="1598594499641" duration="18470000" />
+      <workItem from="1598853708817" duration="18318000" />
+      <workItem from="1598940488073" duration="18088000" />
+      <workItem from="1598971045351" duration="1492000" />
+      <workItem from="1599027086205" duration="2026000" />
+      <workItem from="1599029169221" duration="17199000" />
+      <workItem from="1599051617046" duration="4801000" />
+      <workItem from="1599112493275" duration="10863000" />
+      <workItem from="1599125976777" duration="5596000" />
+      <workItem from="1599136603854" duration="5387000" />
+      <workItem from="1599199289494" duration="19734000" />
+      <workItem from="1599458267733" duration="1518000" />
+      <workItem from="1599460772589" duration="3665000" />
+      <workItem from="1599469069601" duration="14905000" />
+      <workItem from="1599545361475" duration="22090000" />
+      <workItem from="1599571176735" duration="10000" />
+      <workItem from="1599585594612" duration="661000" />
+      <workItem from="1599631058595" duration="4774000" />
+      <workItem from="1599636423740" duration="7265000" />
+      <workItem from="1599717055833" duration="4109000" />
+      <workItem from="1599803994937" duration="15938000" />
+      <workItem from="1599853635474" duration="629000" />
+      <workItem from="1599981908006" duration="5845000" />
+      <workItem from="1600063847773" duration="20707000" />
+      <workItem from="1600149256405" duration="20922000" />
+      <workItem from="1600185859287" duration="256000" />
+      <workItem from="1600236198540" duration="21291000" />
+      <workItem from="1600261086300" duration="91000" />
+      <workItem from="1600322924957" duration="7379000" />
+      <workItem from="1600330581410" duration="2857000" />
+      <workItem from="1600336900391" duration="11000" />
+      <workItem from="1600337043649" duration="4000" />
+      <workItem from="1600337104993" duration="3000" />
+      <workItem from="1600342042580" duration="4000" />
+      <workItem from="1600344573839" duration="504000" />
+      <workItem from="1600408629354" duration="19987000" />
+      <workItem from="1600610751655" duration="727000" />
+      <workItem from="1600668007120" duration="22785000" />
+      <workItem from="1600706344302" duration="618000" />
+      <workItem from="1600754421891" duration="19628000" />
+      <workItem from="1600840488320" duration="10114000" />
+      <workItem from="1600861222969" duration="9000" />
+      <workItem from="1600882644856" duration="1259000" />
+      <workItem from="1600927476556" duration="7992000" />
+      <workItem from="1600958954352" duration="2021000" />
+      <workItem from="1600969865719" duration="1725000" />
+      <workItem from="1601013453145" duration="15638000" />
+      <workItem from="1601151606120" duration="329000" />
+      <workItem from="1601273425355" duration="5133000" />
+      <workItem from="1601307574539" duration="110000" />
+      <workItem from="1601359719920" duration="13419000" />
+      <workItem from="1601446114884" duration="13936000" />
+      <workItem from="1601532427370" duration="1054000" />
+      <workItem from="1601534097476" duration="4034000" />
+      <workItem from="1601538432953" duration="3803000" />
+      <workItem from="1601618814389" duration="16608000" />
+      <workItem from="1601647767679" duration="318000" />
+      <workItem from="1601877704820" duration="17564000" />
+      <workItem from="1601963935883" duration="10678000" />
+      <workItem from="1602051232199" duration="1284000" />
+      <workItem from="1602058169818" duration="8144000" />
+      <workItem from="1602136555455" duration="7445000" />
+      <workItem from="1602159024908" duration="169000" />
+      <workItem from="1602164081879" duration="629000" />
+      <workItem from="1602223268613" duration="9405000" />
+      <workItem from="1602482072643" duration="607000" />
     </task>
+    <task id="LOCAL-00001" summary="initial commit">
+      <created>1598465609910</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1598465609910</updated>
+    </task>
+    <task id="LOCAL-00002" summary="changed architecture (divided reducers)">
+      <created>1598523198546</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1598523198546</updated>
+    </task>
+    <task id="LOCAL-00003" summary="added modal">
+      <created>1598605109177</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1598605109177</updated>
+    </task>
+    <task id="LOCAL-00004" summary="changed EditPortalComponent.tsx">
+      <created>1598854630329</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1598854630329</updated>
+    </task>
+    <task id="LOCAL-00005" summary="edit works">
+      <created>1598869033373</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1598869033373</updated>
+    </task>
+    <task id="LOCAL-00006" summary="created AddLineComponent.tsx">
+      <created>1598954457663</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1598954457663</updated>
+    </task>
+    <task id="LOCAL-00007" summary="created AddLine">
+      <created>1599054697661</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1599054697661</updated>
+    </task>
+    <task id="LOCAL-00008" summary="split model works">
+      <created>1599136826051</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1599136826051</updated>
+    </task>
+    <task id="LOCAL-00009" summary="splitting works">
+      <created>1599211175039</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1599211175039</updated>
+    </task>
+    <task id="LOCAL-00010" summary="add random line works">
+      <created>1599460181961</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1599460181961</updated>
+    </task>
+    <task id="LOCAL-00011" summary="edit line">
+      <created>1599464420584</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1599464420584</updated>
+    </task>
+    <task id="LOCAL-00012" summary="edit works">
+      <created>1599479596572</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1599479596572</updated>
+    </task>
+    <task id="LOCAL-00013" summary="divided functions from components">
+      <created>1599557502305</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1599557502305</updated>
+    </task>
+    <task id="LOCAL-00014" summary="refactored reducers">
+      <created>1599569182652</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1599569182668</updated>
+    </task>
+    <task id="LOCAL-00015" summary="created pipe modal form">
+      <created>1600166131880</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1600166131880</updated>
+    </task>
+    <task id="LOCAL-00016" summary="pipe form works">
+      <created>1600251936933</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1600251936933</updated>
+    </task>
+    <task id="LOCAL-00017" summary="delete pipe works and choose next pipe">
+      <created>1600259434180</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1600259434180</updated>
+    </task>
+    <task id="LOCAL-00018" summary="pipe update and model rotation works">
+      <created>1600678733979</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1600678733979</updated>
+    </task>
+    <task id="LOCAL-00019" summary="test">
+      <created>1600690621311</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1600690621311</updated>
+    </task>
+    <task id="LOCAL-00020" summary="pipe directions work">
+      <created>1600778096016</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1600778096016</updated>
+    </task>
+    <task id="LOCAL-00021" summary="changed ui to blueprint.js">
+      <created>1600929232302</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1600929232302</updated>
+    </task>
+    <task id="LOCAL-00022" summary="server requests works">
+      <created>1601378785737</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1601378785737</updated>
+    </task>
+    <task id="LOCAL-00023" summary="server communication works">
+      <created>1601449068413</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1601449068413</updated>
+    </task>
+    <task id="LOCAL-00024" summary="loading model">
+      <created>1601456548252</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1601456548252</updated>
+    </task>
+    <task id="LOCAL-00025" summary="table tipization works">
+      <created>1601468413364</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1601468413364</updated>
+    </task>
+    <task id="LOCAL-00026" summary="added tableReducer tests">
+      <created>1601638588889</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1601638588889</updated>
+    </task>
+    <task id="LOCAL-00027" summary="Refactored add line form">
+      <created>1602159152065</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1602159152065</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ORDER">
+      <list>
+        <option value="0" />
+        <option value="2" />
+        <option value="3" />
+        <option value="1" />
+      </list>
+    </option>
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="changed architecture (divided reducers)" />
+    <MESSAGE value="added modal" />
+    <MESSAGE value="changed EditPortalComponent.tsx" />
+    <MESSAGE value="created AddLineComponent.tsx" />
+    <MESSAGE value="created AddLine" />
+    <MESSAGE value="split model works" />
+    <MESSAGE value="splitting works" />
+    <MESSAGE value="add random line works" />
+    <MESSAGE value="edit line" />
+    <MESSAGE value="edit works" />
+    <MESSAGE value="divided functions from components" />
+    <MESSAGE value="refactored reducers" />
+    <MESSAGE value="created pipe modal form" />
+    <MESSAGE value="pipe form works" />
+    <MESSAGE value="delete pipe works and choose next pipe" />
+    <MESSAGE value="pipe update and model rotation works" />
+    <MESSAGE value="test" />
+    <MESSAGE value="pipe directions work" />
+    <MESSAGE value="changed ui to blueprint.js" />
+    <MESSAGE value="server requests works" />
+    <MESSAGE value="server communication works" />
+    <MESSAGE value="loading model" />
+    <MESSAGE value="table tipization works" />
+    <MESSAGE value="added tableReducer tests" />
+    <MESSAGE value="Refactored add line form" />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactored add line form" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="361" y="71" key="#ESLint" timestamp="1597672295194">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="361" y="71" key="#ESLint/0.0.1536.824@0.0.1536.824" timestamp="1597672295194" />
+    <state x="528" y="216" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1597992973823">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="528" y="216" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1536.824@0.0.1536.824" timestamp="1597992973823" />
+    <state x="393" y="7" key="CommitChangelistDialog2" timestamp="1602159147237">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="393" y="7" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1602159147237" />
+    <state x="549" y="168" key="FileChooserDialogImpl" timestamp="1602227947412">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="549" y="168" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1602227947412" />
+    <state x="620" y="289" width="320" height="245" key="Github.ShareDialog" timestamp="1598465491208">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="620" y="289" width="320" height="245" key="Github.ShareDialog/0.0.1536.824@0.0.1536.824" timestamp="1598465491208" />
+    <state width="1493" height="492" key="GridCell.Tab.0.bottom" timestamp="1601645464256">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="492" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1601645464256" />
+    <state width="1493" height="492" key="GridCell.Tab.0.center" timestamp="1601645464256">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="492" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1601645464256" />
+    <state width="1493" height="492" key="GridCell.Tab.0.left" timestamp="1601645464256">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="492" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1601645464256" />
+    <state width="1493" height="492" key="GridCell.Tab.0.right" timestamp="1601645464256">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="492" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1601645464256" />
+    <state width="1493" height="253" key="GridCell.Tab.1.bottom" timestamp="1599043867716">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="253" key="GridCell.Tab.1.bottom/0.0.1536.824@0.0.1536.824" timestamp="1599043867716" />
+    <state width="1493" height="253" key="GridCell.Tab.1.center" timestamp="1599043867716">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="253" key="GridCell.Tab.1.center/0.0.1536.824@0.0.1536.824" timestamp="1599043867716" />
+    <state width="1493" height="253" key="GridCell.Tab.1.left" timestamp="1599043867716">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="253" key="GridCell.Tab.1.left/0.0.1536.824@0.0.1536.824" timestamp="1599043867716" />
+    <state width="1493" height="253" key="GridCell.Tab.1.right" timestamp="1599043867716">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="253" key="GridCell.Tab.1.right/0.0.1536.824@0.0.1536.824" timestamp="1599043867716" />
+    <state width="1493" height="253" key="GridCell.Tab.2.bottom" timestamp="1599043867717">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="253" key="GridCell.Tab.2.bottom/0.0.1536.824@0.0.1536.824" timestamp="1599043867717" />
+    <state width="1493" height="253" key="GridCell.Tab.2.center" timestamp="1599043867716">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="253" key="GridCell.Tab.2.center/0.0.1536.824@0.0.1536.824" timestamp="1599043867716" />
+    <state width="1493" height="253" key="GridCell.Tab.2.left" timestamp="1599043867716">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="253" key="GridCell.Tab.2.left/0.0.1536.824@0.0.1536.824" timestamp="1599043867716" />
+    <state width="1493" height="253" key="GridCell.Tab.2.right" timestamp="1599043867717">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="253" key="GridCell.Tab.2.right/0.0.1536.824@0.0.1536.824" timestamp="1599043867717" />
+    <state width="1493" height="253" key="GridCell.Tab.3.bottom" timestamp="1599043867717">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="253" key="GridCell.Tab.3.bottom/0.0.1536.824@0.0.1536.824" timestamp="1599043867717" />
+    <state width="1493" height="253" key="GridCell.Tab.3.center" timestamp="1599043867717">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="253" key="GridCell.Tab.3.center/0.0.1536.824@0.0.1536.824" timestamp="1599043867717" />
+    <state width="1493" height="253" key="GridCell.Tab.3.left" timestamp="1599043867717">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="253" key="GridCell.Tab.3.left/0.0.1536.824@0.0.1536.824" timestamp="1599043867717" />
+    <state width="1493" height="253" key="GridCell.Tab.3.right" timestamp="1599043867717">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="253" key="GridCell.Tab.3.right/0.0.1536.824@0.0.1536.824" timestamp="1599043867717" />
+    <state x="349" y="156" width="810" height="512" key="IDE.errors.dialog" timestamp="1598355198983">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="349" y="156" width="810" height="512" key="IDE.errors.dialog/0.0.1536.824@0.0.1536.824" timestamp="1598355198983" />
+    <state x="249" y="0" key="SettingsEditor" timestamp="1598465448781">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="249" y="0" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1598465448781" />
+    <state x="490" y="154" width="540" height="524" key="StructurePopup" timestamp="1601019338259">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="490" y="154" width="540" height="524" key="StructurePopup/0.0.1536.824@0.0.1536.824" timestamp="1601019338259" />
+    <state x="361" y="146" key="Vcs.Push.Dialog.v2" timestamp="1602159172673">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="361" y="146" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1602159172673" />
+    <state x="465" y="237" key="com.intellij.ide.util.TipDialog" timestamp="1602482071432">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="465" y="237" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1602482071432" />
+    <state x="241" y="216" width="1173" height="564" key="new project wizard" timestamp="1601022917676">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="241" y="216" width="1173" height="564" key="new project wizard/0.0.1536.824@0.0.1536.824" timestamp="1601022917676" />
+    <state x="425" y="187" key="run.anything.popup" timestamp="1600069350932">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="425" y="187" key="run.anything.popup/0.0.1536.824@0.0.1536.824" timestamp="1600069350932" />
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1601456711235">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1601456711235" />
   </component>
 </project>
